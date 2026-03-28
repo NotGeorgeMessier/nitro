@@ -2,7 +2,7 @@ import type { CodeNode } from './CodeNode.js'
 import type { Language } from '../getPlatformSpecs.js'
 import { type SourceFile, type SourceImport } from './SourceFile.js'
 import { Parameter } from './Parameter.js'
-import type { Type } from './types/Type.js'
+import type { CppIncludeConsumer, Type } from './types/Type.js'
 import { indent } from '../utils.js'
 
 export type MethodBody = string
@@ -150,10 +150,16 @@ ${signature} {
     return [...returnTypeExtraFiles, ...paramsExtraFiles]
   }
 
-  getRequiredImports(language: Language): SourceImport[] {
-    const returnTypeFiles = this.returnType.getRequiredImports(language)
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
+    const returnTypeFiles = this.returnType.getRequiredImports(
+      language,
+      cppConsumer
+    )
     const paramsImports = this.parameters.flatMap((p) =>
-      p.getRequiredImports(language)
+      p.getRequiredImports(language, cppConsumer)
     )
     return [...returnTypeFiles, ...paramsImports]
   }

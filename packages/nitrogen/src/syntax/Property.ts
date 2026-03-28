@@ -2,7 +2,7 @@ import type { CodeNode } from './CodeNode.js'
 import { capitalizeName } from '../utils.js'
 import { type SourceFile, type SourceImport } from './SourceFile.js'
 import type { Language } from '../getPlatformSpecs.js'
-import type { Type } from './types/Type.js'
+import type { CppIncludeConsumer, Type } from './types/Type.js'
 import { Method } from './Method.js'
 import { VoidType } from './types/VoidType.js'
 import { Parameter } from './Parameter.js'
@@ -67,8 +67,11 @@ export class Property implements CodeNode {
     return this.type.getExtraFiles()
   }
 
-  getRequiredImports(language: Language): SourceImport[] {
-    return this.type.getRequiredImports(language)
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
+    return this.type.getRequiredImports(language, cppConsumer)
   }
 
   getGetterName(environment: LanguageEnvironment): string {

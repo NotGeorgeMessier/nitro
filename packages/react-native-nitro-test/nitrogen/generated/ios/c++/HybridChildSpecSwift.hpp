@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "HybridChildSpec.hpp"
+#include "../../shared/c++/HybridChildSpec.hpp"
 
 // Forward declaration of `HybridChildSpec_cxx` to properly resolve imports.
 namespace NitroTest { class HybridChildSpec_cxx; }
@@ -22,15 +22,15 @@ namespace margelo::nitro::test { struct Person; }
 namespace margelo::nitro::test { class HybridBaseSpecSwift; }
 
 #include <string>
-#include "Car.hpp"
+#include "../../shared/c++/Car.hpp"
 #include <variant>
-#include "Powertrain.hpp"
-#include "Person.hpp"
+#include "../../shared/c++/Powertrain.hpp"
+#include "../../shared/c++/Person.hpp"
 #include <optional>
 #include <vector>
 #include "HybridBaseSpecSwift.hpp"
 
-#include "NitroTest-Swift-Cxx-Umbrella.hpp"
+#include "../NitroTest-Swift-Cxx-Umbrella.hpp"
 
 namespace margelo::nitro::test {
 

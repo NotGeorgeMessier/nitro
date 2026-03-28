@@ -1,6 +1,7 @@
 import { NitroConfig } from '../../config/NitroConfig.js'
 import { createCppHybridObjectRegistration } from '../../syntax/c++/CppHybridObjectRegistration.js'
 import { includeHeader } from '../../syntax/c++/includeNitroHeader.js'
+import { sharedCppRelativeUserInclude } from '../../syntax/types/CppIncludeConsumer.js'
 import { createFileMetadataString } from '../../syntax/helpers.js'
 import type { SourceFile, SourceImport } from '../../syntax/SourceFile.js'
 import { createSwiftHybridObjectRegistration } from '../../syntax/swift/SwiftHybridObjectRegistration.js'
@@ -9,6 +10,26 @@ import { getUmbrellaHeaderName } from './createSwiftUmbrellaHeader.js'
 
 type ObjcFile = Omit<SourceFile, 'language'> & { language: 'objective-c++' }
 type SwiftFile = Omit<SourceFile, 'language'> & { language: 'swift' }
+
+/**
+ * Autolinking `.mm` lives under `nitrogen/generated/ios/`; basename includes of
+ * shared C++ specs must point at `../shared/c++/`. (Android OnLoad uses the
+ * same registration helper but a different directory — do not rewrite there.)
+ */
+function mapCppImportForIosAutolinkingRoot(i: SourceImport): SourceImport {
+  if (
+    i.language === 'c++' &&
+    i.space === 'user' &&
+    !i.name.includes('/') &&
+    i.name.endsWith('.hpp')
+  ) {
+    return {
+      ...i,
+      name: sharedCppRelativeUserInclude(i.name, 'ios-generated-root'),
+    }
+  }
+  return i
+}
 
 export function createHybridObjectIntializer(): [ObjcFile, SwiftFile] | [] {
   const autolinkingClassName = `${NitroConfig.current.getIosModuleName()}Autolinking`
@@ -68,7 +89,10 @@ export function createHybridObjectIntializer(): [ObjcFile, SwiftFile] | [] {
   const umbrellaImport = containsSwiftObjects
     ? `#import "${umbrellaHeaderName}"`
     : ''
-  const imports = cppImports.map((i) => includeHeader(i, true)).join('\n')
+  const imports = cppImports
+    .map((i) => mapCppImportForIosAutolinkingRoot(i))
+    .map((i) => includeHeader(i, true))
+    .join('\n')
 
   const objcCode = `
 ${createFileMetadataString(`${autolinkingClassName}.mm`)}

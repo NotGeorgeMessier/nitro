@@ -1,6 +1,11 @@
 import type { Language } from '../../getPlatformSpecs.js'
 import { type SourceFile, type SourceImport } from '../SourceFile.js'
-import type { GetCodeOptions, Type, TypeKind } from './Type.js'
+import type {
+  CppIncludeConsumer,
+  GetCodeOptions,
+  Type,
+  TypeKind,
+} from './Type.js'
 
 export class RecordType implements Type {
   readonly keyType: Type
@@ -42,10 +47,13 @@ export class RecordType implements Type {
   getExtraFiles(): SourceFile[] {
     return [...this.keyType.getExtraFiles(), ...this.valueType.getExtraFiles()]
   }
-  getRequiredImports(language: Language): SourceImport[] {
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
     const imports: SourceImport[] = [
-      ...this.keyType.getRequiredImports(language),
-      ...this.valueType.getRequiredImports(language),
+      ...this.keyType.getRequiredImports(language, cppConsumer),
+      ...this.valueType.getRequiredImports(language, cppConsumer),
     ]
     if (language === 'c++') {
       imports.push({

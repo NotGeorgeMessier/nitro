@@ -4,7 +4,13 @@ import { getForwardDeclaration } from '../c++/getForwardDeclaration.js'
 import { getHybridObjectName } from '../getHybridObjectName.js'
 import type { HybridObjectSpec } from '../HybridObjectSpec.js'
 import type { SourceFile, SourceImport } from '../SourceFile.js'
-import type { GetCodeOptions, Type, TypeKind } from './Type.js'
+import { sharedCppRelativeUserInclude } from './CppIncludeConsumer.js'
+import type {
+  CppIncludeConsumer,
+  GetCodeOptions,
+  Type,
+  TypeKind,
+} from './Type.js'
 
 interface GetHybridObjectCodeOptions extends GetCodeOptions {
   mode?: 'strong' | 'weak'
@@ -133,7 +139,10 @@ export class HybridObjectType implements Type {
     return this.sourceConfig.getIosModuleName()
   }
 
-  getRequiredImports(language: Language): SourceImport[] {
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
     const name = getHybridObjectName(this.hybridObjectName)
     const cxxNamespace = this.sourceConfig.getCxxNamespace('c++')
     const imports: SourceImport[] = []
@@ -159,7 +168,10 @@ export class HybridObjectType implements Type {
           })
         } else {
           imports.push({
-            name: `${name.HybridTSpec}.hpp`,
+            name: sharedCppRelativeUserInclude(
+              `${name.HybridTSpec}.hpp`,
+              cppConsumer
+            ),
             forwardDeclaration: getForwardDeclaration(
               'class',
               name.HybridTSpec,

@@ -6,7 +6,8 @@ import { FunctionType } from '../types/FunctionType.js'
 import { getTypeAs } from '../types/getTypeAs.js'
 import { OptionalType } from '../types/OptionalType.js'
 import { RecordType } from '../types/RecordType.js'
-import type { NamedType, Type } from '../types/Type.js'
+import { iosRootToIosCxxPrivateInclude } from '../types/CppIncludeConsumer.js'
+import type { CppIncludeConsumer, NamedType, Type } from '../types/Type.js'
 import { TupleType } from '../types/TupleType.js'
 import { escapeComments, indent } from '../../utils.js'
 import { PromiseType } from '../types/PromiseType.js'
@@ -35,27 +36,49 @@ export interface SwiftCxxHelper {
   dependencies: SwiftCxxHelper[]
 }
 
-export function createSwiftCxxHelpers(type: Type): SwiftCxxHelper | undefined {
+export function createSwiftCxxHelpers(
+  type: Type,
+  cppConsumer?: CppIncludeConsumer
+): SwiftCxxHelper | undefined {
   switch (type.kind) {
     case 'hybrid-object':
-      return createCxxHybridObjectSwiftHelper(getTypeAs(type, HybridObjectType))
+      return createCxxHybridObjectSwiftHelper(
+        getTypeAs(type, HybridObjectType),
+        cppConsumer
+      )
     case 'optional':
-      return createCxxOptionalSwiftHelper(getTypeAs(type, OptionalType))
+      return createCxxOptionalSwiftHelper(
+        getTypeAs(type, OptionalType),
+        cppConsumer
+      )
     case 'array':
-      return createCxxVectorSwiftHelper(getTypeAs(type, ArrayType))
+      return createCxxVectorSwiftHelper(getTypeAs(type, ArrayType), cppConsumer)
     case 'record':
-      return createCxxUnorderedMapSwiftHelper(getTypeAs(type, RecordType))
+      return createCxxUnorderedMapSwiftHelper(
+        getTypeAs(type, RecordType),
+        cppConsumer
+      )
     case 'function':
-      return createCxxFunctionSwiftHelper(getTypeAs(type, FunctionType))
+      return createCxxFunctionSwiftHelper(
+        getTypeAs(type, FunctionType),
+        cppConsumer
+      )
     case 'variant':
-      return createCxxVariantSwiftHelper(getTypeAs(type, VariantType))
+      return createCxxVariantSwiftHelper(
+        getTypeAs(type, VariantType),
+        cppConsumer
+      )
     case 'tuple':
-      return createCxxTupleSwiftHelper(getTypeAs(type, TupleType))
+      return createCxxTupleSwiftHelper(getTypeAs(type, TupleType), cppConsumer)
     case 'promise':
-      return createCxxPromiseSwiftHelper(getTypeAs(type, PromiseType))
+      return createCxxPromiseSwiftHelper(
+        getTypeAs(type, PromiseType),
+        cppConsumer
+      )
     case 'result-wrapper':
       return createCxxResultWrapperSwiftHelper(
-        getTypeAs(type, ResultWrappingType)
+        getTypeAs(type, ResultWrappingType),
+        cppConsumer
       )
     default:
       return undefined
@@ -66,7 +89,8 @@ export function createSwiftCxxHelpers(type: Type): SwiftCxxHelper | undefined {
  * Creates a C++ `create_HybridTSpecSwift(value)` function that can be called from Swift.
  */
 function createCxxHybridObjectSwiftHelper(
-  type: HybridObjectType
+  type: HybridObjectType,
+  cppConsumer?: CppIncludeConsumer
 ): SwiftCxxHelper {
   const actualType = type.getCode('c++')
   const modulename = type.sourceConfig.getIosModuleName()
@@ -90,7 +114,7 @@ function createCxxHybridObjectSwiftHelper(
     includes.push({
       language: 'c++',
       // Hybrid Object Swift C++ class wrapper
-      name: `${HybridTSpecSwift}.hpp`,
+      name: iosRootToIosCxxPrivateInclude(`${HybridTSpecSwift}.hpp`),
       space: 'user',
     })
   } else {
@@ -150,7 +174,7 @@ using ${name} = ${actualType};
 ${actualType} create_${name}(void* NON_NULL swiftUnsafePointer) noexcept;
 void* NON_NULL get_${name}(${name} cppType);
     `.trim(),
-      requiredIncludes: type.getRequiredImports('c++'),
+      requiredIncludes: type.getRequiredImports('c++', cppConsumer),
     },
     cxxImplementation: {
       code: `
@@ -226,9 +250,16 @@ inline ${specializationName} ${funcName}(const ${parameterType}& strong) noexcep
 /**
  * Creates a C++ `create_optional<T>(value)` function that can be called from Swift.
  */
-function createCxxOptionalSwiftHelper(type: OptionalType): SwiftCxxHelper {
+function createCxxOptionalSwiftHelper(
+  type: OptionalType,
+  cppConsumer?: CppIncludeConsumer
+): SwiftCxxHelper {
   const actualType = type.getCode('c++')
-  const wrappedBridge = new SwiftCxxBridgedType(type.wrappingType, true)
+  const wrappedBridge = new SwiftCxxBridgedType(
+    type.wrappingType,
+    true,
+    cppConsumer
+  )
   const name = escapeCppName(actualType)
   // TODO: Remove has_ and get_ wrappers once https://github.com/swiftlang/swift/issues/83801 is fixed.
   // TODO: Remove create_ wrapper once https://github.com/swiftlang/swift/issues/75834 is fixed.
@@ -268,9 +299,12 @@ inline ${wrappedBridge.getTypeCode('c++')} get_${name}(const ${actualType}& opti
 /**
  * Creates a C++ `create_vector_T<T>(size)` function that can be called from Swift.
  */
-function createCxxVectorSwiftHelper(type: ArrayType): SwiftCxxHelper {
+function createCxxVectorSwiftHelper(
+  type: ArrayType,
+  cppConsumer?: CppIncludeConsumer
+): SwiftCxxHelper {
   const actualType = type.getCode('c++')
-  const bridgedType = new SwiftCxxBridgedType(type)
+  const bridgedType = new SwiftCxxBridgedType(type, false, cppConsumer)
   const name = escapeCppName(actualType)
   const funcName = `create_${name}`
   const code = `
@@ -306,9 +340,12 @@ inline ${actualType} create_${name}(size_t size) noexcept {
 /**
  * Creates a C++ `makeUnorderedMap<T>(size)` function that can be called from Swift.
  */
-function createCxxUnorderedMapSwiftHelper(type: RecordType): SwiftCxxHelper {
+function createCxxUnorderedMapSwiftHelper(
+  type: RecordType,
+  cppConsumer?: CppIncludeConsumer
+): SwiftCxxHelper {
   const actualType = type.getCode('c++')
-  const bridgedType = new SwiftCxxBridgedType(type)
+  const bridgedType = new SwiftCxxBridgedType(type, false, cppConsumer)
   const name = escapeCppName(actualType)
   const keyType = type.keyType.getCode('c++')
   const valueType = type.valueType.getCode('c++')
@@ -358,10 +395,17 @@ inline void emplace_${name}(${name}& map, const ${keyType}& key, const ${valueTy
 /**
  * Creates a C++ `Func_XXXXX` specialization that can be used from Swift.
  */
-function createCxxFunctionSwiftHelper(type: FunctionType): SwiftCxxHelper {
+function createCxxFunctionSwiftHelper(
+  type: FunctionType,
+  cppConsumer?: CppIncludeConsumer
+): SwiftCxxHelper {
   const actualType = type.getCode('c++')
-  const bridgedType = new SwiftCxxBridgedType(type)
-  const returnBridge = new SwiftCxxBridgedType(type.returnType)
+  const bridgedType = new SwiftCxxBridgedType(type, false, cppConsumer)
+  const returnBridge = new SwiftCxxBridgedType(
+    type.returnType,
+    false,
+    cppConsumer
+  )
   const paramsSignature = type.parameters.map((p) => {
     if (p.canBePassedByReference) {
       return `${toReferenceType(p.getCode('c++'))} ${p.escapedName}`
@@ -370,7 +414,7 @@ function createCxxFunctionSwiftHelper(type: FunctionType): SwiftCxxHelper {
     }
   })
   const paramsForward = type.parameters.map((p) => {
-    const bridge = new SwiftCxxBridgedType(p)
+    const bridge = new SwiftCxxBridgedType(p, false, cppConsumer)
     return bridge.parseFromCppToSwift(p.escapedName, 'c++')
   })
   const name = type.specializationName
@@ -378,13 +422,13 @@ function createCxxFunctionSwiftHelper(type: FunctionType): SwiftCxxHelper {
   const swiftClassName = `${NitroConfig.current.getIosModuleName()}::${type.specializationName}`
 
   const callParamsForward = type.parameters.map((p) => {
-    const bridge = new SwiftCxxBridgedType(p)
+    const bridge = new SwiftCxxBridgedType(p, false, cppConsumer)
     return bridge.parseFromSwiftToCpp(p.escapedName, 'c++')
   })
 
   const callFuncReturnType = returnBridge.getTypeCode('c++')
   const callCppFuncParamsSignature = type.parameters.map((p) => {
-    const bridge = new SwiftCxxBridgedType(p)
+    const bridge = new SwiftCxxBridgedType(p, false, cppConsumer)
     const cppType = bridge.getTypeCode('c++')
     return `${cppType} ${p.escapedName}`
   })
@@ -477,9 +521,12 @@ ${name} create_${name}(void* NON_NULL swiftClosureWrapper) noexcept {
 /**
  * Creates multiple C++ `create_variant_A_B_C<A, B, C>(A...)` functions that can be called from Swift.
  */
-function createCxxVariantSwiftHelper(type: VariantType): SwiftCxxHelper {
+function createCxxVariantSwiftHelper(
+  type: VariantType,
+  cppConsumer?: CppIncludeConsumer
+): SwiftCxxHelper {
   const actualType = type.getCode('c++')
-  const bridgedType = new SwiftCxxBridgedType(type)
+  const bridgedType = new SwiftCxxBridgedType(type, false, cppConsumer)
   const name = escapeCppName(actualType)
   const createFunctions = type.variants.map((t) => {
     const param = t.canBePassedByReference
@@ -539,9 +586,12 @@ ${createFunctions.join('\n')}
 /**
  * Creates a C++ `create_tuple_A_B_C<A, B, C>(A, B, C)` function that can be called from Swift.
  */
-function createCxxTupleSwiftHelper(type: TupleType): SwiftCxxHelper {
+function createCxxTupleSwiftHelper(
+  type: TupleType,
+  cppConsumer?: CppIncludeConsumer
+): SwiftCxxHelper {
   const actualType = type.getCode('c++')
-  const bridgedType = new SwiftCxxBridgedType(type)
+  const bridgedType = new SwiftCxxBridgedType(type, false, cppConsumer)
   const name = escapeCppName(actualType)
   const typesSignature = type.itemTypes
     .map((t, i) => {
@@ -581,7 +631,8 @@ inline ${actualType} create_${name}(${typesSignature}) noexcept {
  * Create a C++ `create_result` function that can be called from Swift to create a `Result<T>`.
  */
 function createCxxResultWrapperSwiftHelper(
-  type: ResultWrappingType
+  type: ResultWrappingType,
+  cppConsumer?: CppIncludeConsumer
 ): SwiftCxxHelper {
   // TODO: Remove the ResultWrappingType once https://github.com/swiftlang/swift/issues/75290 is fixed.
   const actualType = type.getCode('c++')
@@ -623,7 +674,7 @@ inline ${name} ${funcName}(const ${type.error.getCode('c++')}& error) noexcept {
 using ${name} = ${actualType};
 ${functions.join('\n')}
       `.trim(),
-      requiredIncludes: type.getRequiredImports('c++'),
+      requiredIncludes: type.getRequiredImports('c++', cppConsumer),
     },
     dependencies: [],
   }
@@ -632,9 +683,12 @@ ${functions.join('\n')}
 /**
  * Creates a C++ `create_promise_T()` function that can be called from Swift to create a `std::shared_ptr<Promise<T>>`.
  */
-function createCxxPromiseSwiftHelper(type: PromiseType): SwiftCxxHelper {
+function createCxxPromiseSwiftHelper(
+  type: PromiseType,
+  cppConsumer?: CppIncludeConsumer
+): SwiftCxxHelper {
   const resultingType = type.resultingType.getCode('c++')
-  const bridgedType = new SwiftCxxBridgedType(type)
+  const bridgedType = new SwiftCxxBridgedType(type, false, cppConsumer)
   const actualType = `std::shared_ptr<Promise<${resultingType}>>`
 
   const resolverArgs: NamedType[] = []
@@ -674,8 +728,8 @@ inline PromiseHolder<${resultingType}> wrap_${name}(${actualType} promise) noexc
       ],
     },
     dependencies: [
-      createCxxFunctionSwiftHelper(resolveFunction),
-      createCxxFunctionSwiftHelper(rejectFunction),
+      createCxxFunctionSwiftHelper(resolveFunction, cppConsumer),
+      createCxxFunctionSwiftHelper(rejectFunction, cppConsumer),
     ],
   }
 }

@@ -1,6 +1,10 @@
 import type { CustomTypeConfig } from 'react-native-nitro-modules'
 import type { Language } from '../../getPlatformSpecs.js'
 import type { SourceFile, SourceImport } from '../SourceFile.js'
+import {
+  sharedCppRelativeUserInclude,
+  type CppIncludeConsumer,
+} from './CppIncludeConsumer.js'
 import type { Type, TypeKind } from './Type.js'
 
 export class CustomType implements Type {
@@ -36,11 +40,17 @@ export class CustomType implements Type {
   getExtraFiles(): SourceFile[] {
     return []
   }
-  getRequiredImports(language: Language): SourceImport[] {
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
     const imports: SourceImport[] = []
     if (language === 'c++') {
       imports.push({
-        name: this.typeConfig.include,
+        name: sharedCppRelativeUserInclude(
+          this.typeConfig.include,
+          cppConsumer
+        ),
         language: 'c++',
         space: 'user',
       })

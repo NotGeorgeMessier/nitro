@@ -17,7 +17,7 @@ import { PromiseType } from '../types/PromiseType.js'
 import { RecordType } from '../types/RecordType.js'
 import { StructType } from '../types/StructType.js'
 import { TupleType } from '../types/TupleType.js'
-import type { Type } from '../types/Type.js'
+import type { CppIncludeConsumer, Type } from '../types/Type.js'
 import { VariantType } from '../types/VariantType.js'
 import { getReferencedTypes } from '../getReferencedTypes.js'
 import {
@@ -38,10 +38,16 @@ import type { Language } from '../../getPlatformSpecs.js'
 export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
   readonly type: Type
   private readonly isBridgingToDirectCppTarget: boolean
+  readonly cppConsumer: CppIncludeConsumer | undefined
 
-  constructor(type: Type, isBridgingToDirectCppTarget: boolean = false) {
+  constructor(
+    type: Type,
+    isBridgingToDirectCppTarget: boolean = false,
+    cppConsumer?: CppIncludeConsumer
+  ) {
     this.type = type
     this.isBridgingToDirectCppTarget = isBridgingToDirectCppTarget
+    this.cppConsumer = cppConsumer
   }
 
   get hasType(): boolean {
@@ -116,7 +122,7 @@ export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
   getRequiredBridge(): SwiftCxxHelper | undefined {
     // Since Swift doesn't support C++ templates, we need to create helper
     // functions that create those types (specialized) for us.
-    return createSwiftCxxHelpers(this.type)
+    return createSwiftCxxHelpers(this.type, this.cppConsumer)
   }
 
   private getBridgeOrThrow(): SwiftCxxHelper {
@@ -129,7 +135,8 @@ export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
   }
 
   getRequiredImports(language: Language): SourceImport[] {
-    const imports = this.type.getRequiredImports(language)
+    const cppCtx = language === 'c++' ? this.cppConsumer : undefined
+    const imports = this.type.getRequiredImports(language, cppCtx)
 
     if (language === 'c++') {
       if (this.type.kind === 'array-buffer') {
@@ -153,7 +160,7 @@ export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
         // break a recursion - we already know this type
         return
       }
-      const bridged = new SwiftCxxBridgedType(t)
+      const bridged = new SwiftCxxBridgedType(t, false, this.cppConsumer)
       imports.push(...bridged.getRequiredImports(language))
     })
 
@@ -169,7 +176,7 @@ export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
         const extensionFile = createSwiftStructBridge(struct)
         files.push(extensionFile)
         extensionFile.referencedTypes.forEach((t) => {
-          const bridge = new SwiftCxxBridgedType(t)
+          const bridge = new SwiftCxxBridgedType(t, false, this.cppConsumer)
           files.push(...bridge.getExtraFiles())
         })
         break
@@ -208,7 +215,7 @@ export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
         // break a recursion - we already know this type
         return
       }
-      const bridged = new SwiftCxxBridgedType(t)
+      const bridged = new SwiftCxxBridgedType(t, false, this.cppConsumer)
       files.push(...bridged.getExtraFiles())
     })
 
@@ -391,8 +398,16 @@ export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
               const rejecterFunc = new FunctionType(new VoidType(), [
                 new NamedWrappingType('error', new ErrorType()),
               ])
-              const resolverFuncBridge = new SwiftCxxBridgedType(resolverFunc)
-              const rejecterFuncBridge = new SwiftCxxBridgedType(rejecterFunc)
+              const resolverFuncBridge = new SwiftCxxBridgedType(
+                resolverFunc,
+                false,
+                this.cppConsumer
+              )
+              const rejecterFuncBridge = new SwiftCxxBridgedType(
+                rejecterFunc,
+                false,
+                this.cppConsumer
+              )
               return `
 { () -> ${promise.getCode('swift')} in
   let __promise = ${promise.getCode('swift')}()
@@ -415,8 +430,16 @@ export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
               const rejecterFunc = new FunctionType(new VoidType(), [
                 new NamedWrappingType('error', new ErrorType()),
               ])
-              const resolverFuncBridge = new SwiftCxxBridgedType(resolverFunc)
-              const rejecterFuncBridge = new SwiftCxxBridgedType(rejecterFunc)
+              const resolverFuncBridge = new SwiftCxxBridgedType(
+                resolverFunc,
+                false,
+                this.cppConsumer
+              )
+              const rejecterFuncBridge = new SwiftCxxBridgedType(
+                rejecterFunc,
+                false,
+                this.cppConsumer
+              )
               const resolverFuncName = promise.resultingType
                 .canBePassedByReference
                 ? 'addOnResolvedListener'
@@ -452,7 +475,11 @@ export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
         }
       case 'optional': {
         const optional = getTypeAs(this.type, OptionalType)
-        const wrapping = new SwiftCxxBridgedType(optional.wrappingType, true)
+        const wrapping = new SwiftCxxBridgedType(
+          optional.wrappingType,
+          true,
+          this.cppConsumer
+        )
         const bridge = this.getBridgeOrThrow()
         switch (language) {
           case 'swift':
@@ -507,7 +534,11 @@ export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
       }
       case 'array': {
         const array = getTypeAs(this.type, ArrayType)
-        const wrapping = new SwiftCxxBridgedType(array.itemType, true)
+        const wrapping = new SwiftCxxBridgedType(
+          array.itemType,
+          true,
+          this.cppConsumer
+        )
         switch (language) {
           case 'swift':
             // We have to iterate the element one by one to create a resulting Array (mapped)
@@ -529,8 +560,16 @@ export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
         const getKeysFunc = `bridge.get_${bridge.specializationName}_keys`
         const getValueFunc = `bridge.get_${bridge.specializationName}_value`
         const record = getTypeAs(this.type, RecordType)
-        const wrappingKey = new SwiftCxxBridgedType(record.keyType, true)
-        const wrappingValue = new SwiftCxxBridgedType(record.valueType, true)
+        const wrappingKey = new SwiftCxxBridgedType(
+          record.keyType,
+          true,
+          this.cppConsumer
+        )
+        const wrappingValue = new SwiftCxxBridgedType(
+          record.valueType,
+          true,
+          this.cppConsumer
+        )
         switch (language) {
           case 'swift':
             return `
@@ -563,7 +602,7 @@ export class SwiftCxxBridgedType implements BridgedType<'swift', 'c++'> {
           : cppParameterName
         const cases = variant.cases
           .map(([label, v], i) => {
-            const wrapping = new SwiftCxxBridgedType(v, true)
+            const wrapping = new SwiftCxxBridgedType(v, true, this.cppConsumer)
             const parse = wrapping.parseFromCppToSwift('__actual', 'swift')
             return `
 case ${i}:
@@ -600,7 +639,11 @@ case ${i}:
             const returnType = funcType.returnType.getCode('swift')
             const signature = `(${paramsSignature.join(', ')}) -> ${returnType}`
             const paramsForward = funcType.parameters.map((p) => {
-              const bridged = new SwiftCxxBridgedType(p)
+              const bridged = new SwiftCxxBridgedType(
+                p,
+                false,
+                this.cppConsumer
+              )
               return bridged.parseFromSwiftToCpp(`__${p.escapedName}`, 'swift')
             })
 
@@ -615,7 +658,8 @@ case ${i}:
             } else {
               const resultBridged = new SwiftCxxBridgedType(
                 funcType.returnType,
-                true
+                true,
+                this.cppConsumer
               )
               return `
 { () -> ${swiftClosureType} in
@@ -686,7 +730,11 @@ case ${i}:
         }
       case 'optional': {
         const optional = getTypeAs(this.type, OptionalType)
-        const wrapping = new SwiftCxxBridgedType(optional.wrappingType, true)
+        const wrapping = new SwiftCxxBridgedType(
+          optional.wrappingType,
+          true,
+          this.cppConsumer
+        )
         const bridge = this.getBridgeOrThrow()
         const makeFunc = `bridge.${bridge.funcName}`
         switch (language) {
@@ -752,7 +800,8 @@ case ${i}:
         const promise = getTypeAs(this.type, PromiseType)
         const resolvingType = new SwiftCxxBridgedType(
           promise.resultingType,
-          true
+          true,
+          this.cppConsumer
         )
         switch (language) {
           case 'swift':
@@ -776,7 +825,11 @@ case ${i}:
       case 'array': {
         const bridge = this.getBridgeOrThrow()
         const array = getTypeAs(this.type, ArrayType)
-        const wrapping = new SwiftCxxBridgedType(array.itemType, true)
+        const wrapping = new SwiftCxxBridgedType(
+          array.itemType,
+          true,
+          this.cppConsumer
+        )
         switch (language) {
           case 'swift':
             // array has to be iterated and converted one-by-one
@@ -804,7 +857,11 @@ case ${i}:
           case 'swift':
             const typesForward = tuple.itemTypes
               .map((t, i) => {
-                const bridged = new SwiftCxxBridgedType(t)
+                const bridged = new SwiftCxxBridgedType(
+                  t,
+                  false,
+                  this.cppConsumer
+                )
                 return `${bridged.parseFromSwiftToCpp(`${swiftParameterName}.${i}`, language)}`
               })
               .join(', ')
@@ -820,7 +877,11 @@ case ${i}:
           case 'swift':
             const cases = variant.cases
               .map(([label, v]) => {
-                const wrapping = new SwiftCxxBridgedType(v, true)
+                const wrapping = new SwiftCxxBridgedType(
+                  v,
+                  true,
+                  this.cppConsumer
+                )
                 const parse = wrapping.parseFromSwiftToCpp('__value', 'swift')
                 return `
 case .${label}(let __value):
@@ -846,8 +907,16 @@ case .${label}(let __value):
         const bridge = this.getBridgeOrThrow()
         const createMap = `bridge.${bridge.funcName}`
         const record = getTypeAs(this.type, RecordType)
-        const wrappingKey = new SwiftCxxBridgedType(record.keyType, true)
-        const wrappingValue = new SwiftCxxBridgedType(record.valueType, true)
+        const wrappingKey = new SwiftCxxBridgedType(
+          record.keyType,
+          true,
+          this.cppConsumer
+        )
+        const wrappingValue = new SwiftCxxBridgedType(
+          record.valueType,
+          true,
+          this.cppConsumer
+        )
         switch (language) {
           case 'swift':
             return `

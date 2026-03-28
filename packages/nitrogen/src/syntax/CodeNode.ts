@@ -1,5 +1,6 @@
 import type { Language } from '../getPlatformSpecs.js'
 import type { SourceFile, SourceImport } from './SourceFile.js'
+import type { CppIncludeConsumer } from './types/Type.js'
 
 export interface CodeNode {
   /**
@@ -20,5 +21,8 @@ export interface CodeNode {
    *
    * All imports returned here must be included in the current file (e.g. `#include "..."` or `import ...`)
    */
-  getRequiredImports(language: Language): SourceImport[]
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[]
 }

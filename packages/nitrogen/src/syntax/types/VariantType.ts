@@ -1,7 +1,12 @@
 import type { Language } from '../../getPlatformSpecs.js'
 import { escapeCppName, isNotDuplicate } from '../helpers.js'
 import { type SourceFile, type SourceImport } from '../SourceFile.js'
-import type { GetCodeOptions, Type, TypeKind } from './Type.js'
+import type {
+  CppIncludeConsumer,
+  GetCodeOptions,
+  Type,
+  TypeKind,
+} from './Type.js'
 
 export const VariantLabels = [
   'first',
@@ -81,8 +86,13 @@ export class VariantType implements Type {
   getExtraFiles(): SourceFile[] {
     return this.variants.flatMap((v) => v.getExtraFiles())
   }
-  getRequiredImports(language: Language): SourceImport[] {
-    const imports = this.variants.flatMap((v) => v.getRequiredImports(language))
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
+    const imports = this.variants.flatMap((v) =>
+      v.getRequiredImports(language, cppConsumer)
+    )
     if (language === 'c++') {
       imports.push({
         language: 'c++',

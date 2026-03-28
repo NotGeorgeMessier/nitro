@@ -3,7 +3,7 @@ import type { CodeNode } from './CodeNode.js'
 import { escapeCppName, toReferenceType } from './helpers.js'
 import type { Language } from '../getPlatformSpecs.js'
 import { type SourceFile, type SourceImport } from './SourceFile.js'
-import type { NamedType, Type } from './types/Type.js'
+import type { CppIncludeConsumer, NamedType, Type } from './types/Type.js'
 import { NamedWrappingType } from './types/NamedWrappingType.js'
 import { createNamedType } from './createType.js'
 
@@ -75,7 +75,10 @@ export class Parameter implements CodeNode {
     return this.type.getExtraFiles()
   }
 
-  getRequiredImports(language: Language): SourceImport[] {
-    return this.type.getRequiredImports(language)
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
+    return this.type.getRequiredImports(language, cppConsumer)
   }
 }

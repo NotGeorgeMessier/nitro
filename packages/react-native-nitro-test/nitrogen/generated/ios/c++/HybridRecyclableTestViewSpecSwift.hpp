@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "HybridRecyclableTestViewSpec.hpp"
+#include "../../shared/c++/HybridRecyclableTestViewSpec.hpp"
 
 // Forward declaration of `HybridRecyclableTestViewSpec_cxx` to properly resolve imports.
 namespace NitroTest { class HybridRecyclableTestViewSpec_cxx; }
@@ -16,7 +16,7 @@ namespace NitroTest { class HybridRecyclableTestViewSpec_cxx; }
 
 
 
-#include "NitroTest-Swift-Cxx-Umbrella.hpp"
+#include "../NitroTest-Swift-Cxx-Umbrella.hpp"
 
 namespace margelo::nitro::test {
 

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "HybridBaseSpec.hpp"
+#include "../../shared/c++/HybridBaseSpec.hpp"
 
 // Forward declaration of `HybridBaseSpec_cxx` to properly resolve imports.
 namespace NitroTest { class HybridBaseSpec_cxx; }
@@ -16,7 +16,7 @@ namespace NitroTest { class HybridBaseSpec_cxx; }
 
 
 
-#include "NitroTest-Swift-Cxx-Umbrella.hpp"
+#include "../NitroTest-Swift-Cxx-Umbrella.hpp"
 
 namespace margelo::nitro::test {
 

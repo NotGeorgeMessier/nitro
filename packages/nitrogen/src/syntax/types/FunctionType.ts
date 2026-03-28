@@ -3,7 +3,13 @@ import { escapeCppName, toReferenceType } from '../helpers.js'
 import { Parameter } from '../Parameter.js'
 import { type SourceFile, type SourceImport } from '../SourceFile.js'
 import { PromiseType } from './PromiseType.js'
-import type { GetCodeOptions, NamedType, Type, TypeKind } from './Type.js'
+import type {
+  CppIncludeConsumer,
+  GetCodeOptions,
+  NamedType,
+  Type,
+  TypeKind,
+} from './Type.js'
 
 export interface GetFunctionCodeOptions extends GetCodeOptions {
   includeNameInfo?: boolean
@@ -153,10 +159,15 @@ export class FunctionType implements Type {
       ...this.parameters.flatMap((p) => p.getExtraFiles()),
     ]
   }
-  getRequiredImports(language: Language): SourceImport[] {
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
     const imports: SourceImport[] = [
-      ...this.returnType.getRequiredImports(language),
-      ...this.parameters.flatMap((p) => p.getRequiredImports(language)),
+      ...this.returnType.getRequiredImports(language, cppConsumer),
+      ...this.parameters.flatMap((p) =>
+        p.getRequiredImports(language, cppConsumer)
+      ),
     ]
     if (language === 'c++') {
       imports.push({

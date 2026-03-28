@@ -10,13 +10,13 @@
 #import "NitroTest-Swift-Cxx-Umbrella.hpp"
 #import <type_traits>
 
-#include "HybridTestObjectCpp.hpp"
-#include "HybridTestObjectSwiftKotlinSpecSwift.hpp"
-#include "HybridBaseSpecSwift.hpp"
-#include "HybridChildSpecSwift.hpp"
-#include "HybridPlatformObjectSpecSwift.hpp"
-#include "HybridTestViewSpecSwift.hpp"
-#include "HybridRecyclableTestViewSpecSwift.hpp"
+#include "../shared/c++/HybridTestObjectCpp.hpp"
+#include "c++/HybridTestObjectSwiftKotlinSpecSwift.hpp"
+#include "c++/HybridBaseSpecSwift.hpp"
+#include "c++/HybridChildSpecSwift.hpp"
+#include "c++/HybridPlatformObjectSpecSwift.hpp"
+#include "c++/HybridTestViewSpecSwift.hpp"
+#include "c++/HybridRecyclableTestViewSpecSwift.hpp"
 
 @interface NitroTestAutolinking : NSObject
 @end

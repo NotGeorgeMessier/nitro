@@ -18,13 +18,15 @@ export function createSwiftCxxBridge(): SourceFile[] {
   const bridgeName = NitroConfig.current.getSwiftBridgeHeaderName()
   const bridgeNamespace = NitroConfig.current.getSwiftBridgeNamespace('c++')
 
-  const types = getAllKnownTypes('swift').map((t) => new SwiftCxxBridgedType(t))
+  const types = getAllKnownTypes('swift').map(
+    (t) => new SwiftCxxBridgedType(t, false, 'ios-generated-root')
+  )
 
   const bridges = types
     .flatMap((t) => {
       const referenced = getReferencedTypes(t.type)
       return referenced.map((r) => {
-        const bridge = new SwiftCxxBridgedType(r)
+        const bridge = new SwiftCxxBridgedType(r, false, 'ios-generated-root')
         return bridge.getRequiredBridge()
       })
     })

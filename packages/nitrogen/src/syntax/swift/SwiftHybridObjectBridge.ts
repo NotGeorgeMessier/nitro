@@ -14,6 +14,10 @@ import { getForwardDeclaration } from '../c++/getForwardDeclaration.js'
 import { NitroConfig } from '../../config/NitroConfig.js'
 import { includeHeader } from '../c++/includeNitroHeader.js'
 import { getUmbrellaHeaderName } from '../../autolinking/ios/createSwiftUmbrellaHeader.js'
+import {
+  iosCxxToIosRootInclude,
+  sharedCppRelativeUserInclude,
+} from '../types/CppIncludeConsumer.js'
 import { HybridObjectType } from '../types/HybridObjectType.js'
 import { addKnownType } from '../createType.js'
 import { ResultWrappingType } from '../types/ResultWrappingType.js'
@@ -260,7 +264,7 @@ ${hasBase ? `open class ${name.HybridTSpecCxx} : ${baseClasses.join(', ')}` : `o
 
   const cppProperties = spec.properties
     .map((p) => {
-      const bridged = new SwiftCxxBridgedType(p.type)
+      const bridged = new SwiftCxxBridgedType(p.type, false, 'ios-c++')
       let getter: string
       let setter: string
 
@@ -293,7 +297,7 @@ return ${bridged.parseFromSwiftToCpp('__result', 'c++')};
     .map((m) => {
       const params = m.parameters
         .map((p) => {
-          const bridged = new SwiftCxxBridgedType(p.type)
+          const bridged = new SwiftCxxBridgedType(p.type, false, 'ios-c++')
           if (bridged.needsSpecialHandling) {
             // we need custom C++ -> Swift conversion code
             return bridged.parseFromCppToSwift(p.name, 'c++')
@@ -303,7 +307,11 @@ return ${bridged.parseFromSwiftToCpp('__result', 'c++')};
           }
         })
         .join(', ')
-      const bridgedReturnType = new SwiftCxxBridgedType(m.returnType, true)
+      const bridgedReturnType = new SwiftCxxBridgedType(
+        m.returnType,
+        true,
+        'ios-c++'
+      )
       const hasResult = m.returnType.kind !== 'void'
       let body: string
       if (hasResult) {
@@ -331,20 +339,24 @@ if (__result.hasError()) [[unlikely]] {
     .join('\n')
 
   const allBridgedTypes = [
-    ...spec.properties.flatMap((p) => new SwiftCxxBridgedType(p.type)),
+    ...spec.properties.flatMap(
+      (p) => new SwiftCxxBridgedType(p.type, false, 'ios-c++')
+    ),
     ...spec.methods.flatMap((m) => {
-      const bridgedReturn = new SwiftCxxBridgedType(m.returnType)
+      const bridgedReturn = new SwiftCxxBridgedType(
+        m.returnType,
+        false,
+        'ios-c++'
+      )
       const bridgedParams = m.parameters.map(
-        (p) => new SwiftCxxBridgedType(p.type)
+        (p) => new SwiftCxxBridgedType(p.type, false, 'ios-c++')
       )
       return [bridgedReturn, ...bridgedParams]
     }),
   ]
   const cxxNamespace = spec.config.getCxxNamespace('c++')
   const iosModuleName = spec.config.getIosModuleName()
-  const extraImports = allBridgedTypes.flatMap((b) =>
-    b.getRequiredImports('c++')
-  )
+  const extraImports = allBridgedTypes.flatMap((b) => b.getRequiredImports('c++'))
 
   const cppBaseClasses = [`public virtual ${name.HybridTSpec}`]
   const cppBaseCtorCalls = [`HybridObject(${name.HybridTSpec}::TAG)`]
@@ -378,7 +390,7 @@ ${createFileMetadataString(`${name.HybridTSpecSwift}.hpp`)}
 
 #pragma once
 
-#include "${name.HybridTSpec}.hpp"
+#include "${sharedCppRelativeUserInclude(`${name.HybridTSpec}.hpp`, 'ios-c++')}"
 
 ${getForwardDeclaration('class', name.HybridTSpecCxx, iosModuleName)}
 
@@ -386,7 +398,7 @@ ${extraForwardDeclarations.join('\n')}
 
 ${extraIncludes.join('\n')}
 
-#include "${getUmbrellaHeaderName()}"
+#include "${iosCxxToIosRootInclude(getUmbrellaHeaderName())}"
 
 namespace ${cxxNamespace} {
 

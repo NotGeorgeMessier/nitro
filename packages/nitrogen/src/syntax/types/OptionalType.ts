@@ -1,6 +1,11 @@
 import type { Language } from '../../getPlatformSpecs.js'
 import { type SourceFile, type SourceImport } from '../SourceFile.js'
-import type { GetCodeOptions, Type, TypeKind } from './Type.js'
+import type {
+  CppIncludeConsumer,
+  GetCodeOptions,
+  Type,
+  TypeKind,
+} from './Type.js'
 
 export class OptionalType implements Type {
   readonly wrappingType: Type
@@ -54,9 +59,14 @@ export class OptionalType implements Type {
   getExtraFiles(): SourceFile[] {
     return this.wrappingType.getExtraFiles()
   }
-  getRequiredImports(language: Language): SourceImport[] {
-    const imports: SourceImport[] =
-      this.wrappingType.getRequiredImports(language)
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
+    const imports: SourceImport[] = this.wrappingType.getRequiredImports(
+      language,
+      cppConsumer
+    )
     if (language === 'c++') {
       imports.push({
         language: 'c++',

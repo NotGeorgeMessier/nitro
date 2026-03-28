@@ -78,7 +78,9 @@ export function createViewComponentShadowNodeFiles(
   const cases = props.map((p) => `case hashString("${p.name}"): return true;`)
   const includes = props
     .flatMap((p) =>
-      p.getRequiredImports('c++').map((i) => includeHeader(i, true))
+      p
+        .getRequiredImports('c++', 'shared-c++-views')
+        .map((i) => includeHeader(i, true))
     )
     .filter(isNotDuplicate)
 

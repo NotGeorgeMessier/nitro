@@ -3,7 +3,12 @@ import { type SourceFile, type SourceImport } from '../SourceFile.js'
 import { ErrorType } from './ErrorType.js'
 import { FunctionType } from './FunctionType.js'
 import { NamedWrappingType } from './NamedWrappingType.js'
-import type { GetCodeOptions, Type, TypeKind } from './Type.js'
+import type {
+  CppIncludeConsumer,
+  GetCodeOptions,
+  Type,
+  TypeKind,
+} from './Type.js'
 import { VoidType } from './VoidType.js'
 
 export class PromiseType implements Type {
@@ -60,9 +65,14 @@ export class PromiseType implements Type {
   getExtraFiles(): SourceFile[] {
     return this.resultingType.getExtraFiles()
   }
-  getRequiredImports(language: Language): SourceImport[] {
-    const imports: SourceImport[] =
-      this.resultingType.getRequiredImports(language)
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
+    const imports: SourceImport[] = this.resultingType.getRequiredImports(
+      language,
+      cppConsumer
+    )
     switch (language) {
       case 'c++':
         imports.push({

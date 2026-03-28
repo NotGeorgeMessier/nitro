@@ -1,5 +1,9 @@
 import { NitroConfig } from '../../config/NitroConfig.js'
 import type { Language } from '../../getPlatformSpecs.js'
+import {
+  sharedCppRelativeUserInclude,
+  type CppIncludeConsumer,
+} from './CppIncludeConsumer.js'
 import { createCppStruct } from '../c++/CppStruct.js'
 import { getForwardDeclaration } from '../c++/getForwardDeclaration.js'
 import {
@@ -66,12 +70,18 @@ export class StructType implements Type {
     )
     return [this.declarationFile, ...referencedTypes]
   }
-  getRequiredImports(language: Language): SourceImport[] {
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
     const imports: SourceImport[] = []
     if (language === 'c++') {
       const cxxNamespace = NitroConfig.current.getCxxNamespace('c++')
       imports.push({
-        name: this.declarationFile.name,
+        name: sharedCppRelativeUserInclude(
+          this.declarationFile.name,
+          cppConsumer
+        ),
         language: this.declarationFile.language,
         forwardDeclaration: getForwardDeclaration(
           'struct',

@@ -1,7 +1,12 @@
 import type { Language } from '../../getPlatformSpecs.js'
 import { type SourceFile, type SourceImport } from '../SourceFile.js'
 import { ErrorType } from './ErrorType.js'
-import type { GetCodeOptions, Type, TypeKind } from './Type.js'
+import type {
+  CppIncludeConsumer,
+  GetCodeOptions,
+  Type,
+  TypeKind,
+} from './Type.js'
 
 export class ResultWrappingType implements Type {
   readonly result: Type
@@ -39,10 +44,13 @@ export class ResultWrappingType implements Type {
   getExtraFiles(): SourceFile[] {
     return [...this.result.getExtraFiles(), ...this.error.getExtraFiles()]
   }
-  getRequiredImports(language: Language): SourceImport[] {
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
     const imports: SourceImport[] = [
-      ...this.result.getRequiredImports(language),
-      ...this.error.getRequiredImports(language),
+      ...this.result.getRequiredImports(language, cppConsumer),
+      ...this.error.getRequiredImports(language, cppConsumer),
     ]
     if (language === 'c++') {
       imports.push({

@@ -1,6 +1,11 @@
 import type { Language } from '../../getPlatformSpecs.js'
 import { type SourceFile, type SourceImport } from '../SourceFile.js'
-import type { GetCodeOptions, Type, TypeKind } from './Type.js'
+import type {
+  CppIncludeConsumer,
+  GetCodeOptions,
+  Type,
+  TypeKind,
+} from './Type.js'
 
 export class TupleType implements Type {
   readonly itemTypes: Type[]
@@ -40,9 +45,12 @@ export class TupleType implements Type {
   getExtraFiles(): SourceFile[] {
     return this.itemTypes.flatMap((t) => t.getExtraFiles())
   }
-  getRequiredImports(language: Language): SourceImport[] {
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
     const imports = this.itemTypes.flatMap((t) =>
-      t.getRequiredImports(language)
+      t.getRequiredImports(language, cppConsumer)
     )
     if (language === 'c++') {
       imports.push({

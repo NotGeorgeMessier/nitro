@@ -1,7 +1,13 @@
 import type { Language } from '../../getPlatformSpecs.js'
 import { escapeCppName } from '../helpers.js'
 import type { SourceFile, SourceImport } from '../SourceFile.js'
-import type { GetCodeOptions, NamedType, Type, TypeKind } from './Type.js'
+import type {
+  CppIncludeConsumer,
+  GetCodeOptions,
+  NamedType,
+  Type,
+  TypeKind,
+} from './Type.js'
 
 export class NamedWrappingType<T extends Type> implements NamedType {
   readonly type: T
@@ -30,7 +36,10 @@ export class NamedWrappingType<T extends Type> implements NamedType {
   getExtraFiles(): SourceFile[] {
     return this.type.getExtraFiles()
   }
-  getRequiredImports(language: Language): SourceImport[] {
-    return this.type.getRequiredImports(language)
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
+    return this.type.getRequiredImports(language, cppConsumer)
   }
 }

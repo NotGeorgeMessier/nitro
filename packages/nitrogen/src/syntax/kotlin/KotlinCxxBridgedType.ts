@@ -66,9 +66,13 @@ export class KotlinCxxBridgedType implements BridgedType<'kotlin', 'c++'> {
     return false
   }
 
-  getRequiredImports(
+  getRequiredImports(language: Language): SourceImport[] {
+    return this.collectRequiredImports(language, new Set())
+  }
+
+  private collectRequiredImports(
     language: Language,
-    visited: Set<Type> = new Set()
+    visited: Set<Type>
   ): SourceImport[] {
     if (visited.has(this.type)) return []
     visited.add(this.type)
@@ -187,7 +191,7 @@ export class KotlinCxxBridgedType implements BridgedType<'kotlin', 'c++'> {
     const referencedTypes = getReferencedTypes(this.type)
     for (const t of referencedTypes) {
       const bridged = new KotlinCxxBridgedType(t)
-      imports.push(...bridged.getRequiredImports(language, visited))
+      imports.push(...bridged.collectRequiredImports(language, visited))
     }
 
     return imports

@@ -14,8 +14,8 @@ namespace margelo::nitro::test::external { class HybridSomeExternalObjectSpec; }
 namespace margelo::nitro::test::external { struct OptionalPrimitivesHolder; }
 
 // Include C++ defined types
-#include "HybridSomeExternalObjectSpec.hpp"
-#include "OptionalPrimitivesHolder.hpp"
+#include "../shared/c++/HybridSomeExternalObjectSpec.hpp"
+#include "../shared/c++/OptionalPrimitivesHolder.hpp"
 #include <NitroModules/Result.hpp>
 #include <exception>
 #include <memory>

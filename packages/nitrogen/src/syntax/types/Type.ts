@@ -1,5 +1,7 @@
 import type { Language } from '../../getPlatformSpecs.js'
 import type { SourceFile, SourceImport } from '../SourceFile.js'
+import type { CppIncludeConsumer } from './CppIncludeConsumer.js'
+export type { CppIncludeConsumer } from './CppIncludeConsumer.js'
 
 export type TypeKind =
   | 'array-buffer'
@@ -67,8 +69,15 @@ export interface Type {
   getExtraFiles(): SourceFile[]
   /**
    * Get all required extra imports that need to be **imported** for this type to properly work.
+   *
+   * @param cppConsumer For C++ only: where the including file lives under `nitrogen/generated/`,
+   *   so user includes for headers emitted in `shared/c++/` can use the right relative path.
+   *   Primitives and other leaves ignore this; composite types forward it to their children.
    */
-  getRequiredImports(language: Language): SourceImport[]
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[]
 }
 
 export interface NamedType extends Type {

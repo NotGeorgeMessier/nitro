@@ -37,7 +37,9 @@ export function createSwiftUmbrellaHeader(): SourceFile {
     })
     .filter(isNotDuplicate)
 
-  const imports = types.flatMap((t) => t.getRequiredImports('c++'))
+  const imports = types.flatMap((t) =>
+    t.getRequiredImports('c++', 'ios-generated-root')
+  )
   const forwardDeclarations = imports
     .map((i) => i.forwardDeclaration)
     .filter((f) => f != null)

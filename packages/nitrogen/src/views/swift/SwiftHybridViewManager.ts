@@ -15,6 +15,11 @@ import {
   getIsRecyclableCall,
 } from '../../syntax/swift/SwiftHybridObjectRegistration.js'
 import { indent } from '../../utils.js'
+import {
+  iosCxxViewsToIosCxxInclude,
+  iosCxxViewsToIosRootInclude,
+  iosCxxViewsToSharedViewsInclude,
+} from '../../syntax/types/CppIncludeConsumer.js'
 import { SwiftCxxBridgedType } from '../../syntax/swift/SwiftCxxBridgedType.js'
 
 export function createSwiftHybridViewManager(
@@ -55,7 +60,7 @@ if (newViewProps.${name}.isDirty) {
   const mmFile = `
 ${createFileMetadataString(`${component}.mm`)}
 
-#import "${component}.hpp"
+#import "${iosCxxViewsToSharedViewsInclude(`${component}.hpp`)}"
 #import <memory>
 #import <react/renderer/componentregistry/ComponentDescriptorProvider.h>
 #import <React/RCTViewComponentView.h>
@@ -64,8 +69,8 @@ ${createFileMetadataString(`${component}.mm`)}
 #import <NitroModules/NitroDefines.hpp>
 #import <UIKit/UIKit.h>
 
-#import "${HybridTSpecSwift}.hpp"
-#import "${getUmbrellaHeaderName()}"
+#import "${iosCxxViewsToIosCxxInclude(`${HybridTSpecSwift}.hpp`)}"
+#import "${iosCxxViewsToIosRootInclude(getUmbrellaHeaderName())}"
 
 #if __has_include(<cxxreact/ReactNativeVersion.h>)
 #include <cxxreact/ReactNativeVersion.h>

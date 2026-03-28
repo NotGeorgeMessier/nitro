@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "HybridPlatformObjectSpec.hpp"
+#include "../../shared/c++/HybridPlatformObjectSpec.hpp"
 
 // Forward declaration of `HybridPlatformObjectSpec_cxx` to properly resolve imports.
 namespace NitroTest { class HybridPlatformObjectSpec_cxx; }
@@ -16,7 +16,7 @@ namespace NitroTest { class HybridPlatformObjectSpec_cxx; }
 
 #include <string>
 
-#include "NitroTest-Swift-Cxx-Umbrella.hpp"
+#include "../NitroTest-Swift-Cxx-Umbrella.hpp"
 
 namespace margelo::nitro::test {
 

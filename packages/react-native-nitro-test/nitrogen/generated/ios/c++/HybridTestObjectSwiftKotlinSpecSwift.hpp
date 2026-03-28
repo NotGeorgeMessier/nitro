@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "HybridTestObjectSwiftKotlinSpec.hpp"
+#include "../../shared/c++/HybridTestObjectSwiftKotlinSpec.hpp"
 
 // Forward declaration of `HybridTestObjectSwiftKotlinSpec_cxx` to properly resolve imports.
 namespace NitroTest { class HybridTestObjectSwiftKotlinSpec_cxx; }
@@ -52,39 +52,39 @@ namespace margelo::nitro::test::external { class HybridSomeExternalObjectSpec; }
 namespace margelo::nitro::test { struct ExternalObjectStruct; }
 
 #include <memory>
-#include "HybridTestObjectSwiftKotlinSpec.hpp"
+#include "../../shared/c++/HybridTestObjectSwiftKotlinSpec.hpp"
 #include <optional>
 #include <string>
 #include <NitroModules/Null.hpp>
 #include <variant>
 #include <vector>
-#include "Powertrain.hpp"
-#include "OldEnum.hpp"
+#include "../../shared/c++/Powertrain.hpp"
+#include "../../shared/c++/OldEnum.hpp"
 #include <functional>
-#include "Person.hpp"
-#include "PartialPerson.hpp"
-#include "Car.hpp"
-#include "HybridChildSpec.hpp"
+#include "../../shared/c++/Person.hpp"
+#include "../../shared/c++/PartialPerson.hpp"
+#include "../../shared/c++/Car.hpp"
+#include "../../shared/c++/HybridChildSpec.hpp"
 #include <NitroModules/AnyMap.hpp>
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/ArrayBuffer.hpp>
 #include <NitroModules/ArrayBufferHolder.hpp>
 #include <unordered_map>
-#include "MapWrapper.hpp"
-#include "SecondMapWrapper.hpp"
+#include "../../shared/c++/MapWrapper.hpp"
+#include "../../shared/c++/SecondMapWrapper.hpp"
 #include <exception>
 #include <chrono>
-#include "JsStyleStruct.hpp"
-#include "WrappedJsStruct.hpp"
-#include "OptionalWrapper.hpp"
-#include "OptionalCallback.hpp"
-#include "WeirdNumbersEnum.hpp"
-#include "HybridBaseSpec.hpp"
-#include "HybridTestViewSpec.hpp"
+#include "../../shared/c++/JsStyleStruct.hpp"
+#include "../../shared/c++/WrappedJsStruct.hpp"
+#include "../../shared/c++/OptionalWrapper.hpp"
+#include "../../shared/c++/OptionalCallback.hpp"
+#include "../../shared/c++/WeirdNumbersEnum.hpp"
+#include "../../shared/c++/HybridBaseSpec.hpp"
+#include "../../shared/c++/HybridTestViewSpec.hpp"
 #include <NitroTestExternal/HybridSomeExternalObjectSpec.hpp>
-#include "ExternalObjectStruct.hpp"
+#include "../../shared/c++/ExternalObjectStruct.hpp"
 
-#include "NitroTest-Swift-Cxx-Umbrella.hpp"
+#include "../NitroTest-Swift-Cxx-Umbrella.hpp"
 
 namespace margelo::nitro::test {
 

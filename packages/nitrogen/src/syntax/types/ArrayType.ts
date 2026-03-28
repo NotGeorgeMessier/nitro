@@ -1,6 +1,11 @@
 import type { Language } from '../../getPlatformSpecs.js'
 import { type SourceFile, type SourceImport } from '../SourceFile.js'
-import type { GetCodeOptions, Type, TypeKind } from './Type.js'
+import type {
+  CppIncludeConsumer,
+  GetCodeOptions,
+  Type,
+  TypeKind,
+} from './Type.js'
 
 export class ArrayType implements Type {
   readonly itemType: Type
@@ -52,9 +57,12 @@ export class ArrayType implements Type {
   getExtraFiles(): SourceFile[] {
     return this.itemType.getExtraFiles()
   }
-  getRequiredImports(language: Language): SourceImport[] {
+  getRequiredImports(
+    language: Language,
+    cppConsumer?: CppIncludeConsumer
+  ): SourceImport[] {
     const imports: SourceImport[] = [
-      ...this.itemType.getRequiredImports(language),
+      ...this.itemType.getRequiredImports(language, cppConsumer),
     ]
     if (language === 'c++') {
       imports.push({

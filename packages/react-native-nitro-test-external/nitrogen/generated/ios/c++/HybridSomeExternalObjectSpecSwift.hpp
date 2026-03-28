@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "HybridSomeExternalObjectSpec.hpp"
+#include "../../shared/c++/HybridSomeExternalObjectSpec.hpp"
 
 // Forward declaration of `HybridSomeExternalObjectSpec_cxx` to properly resolve imports.
 namespace NitroTestExternal { class HybridSomeExternalObjectSpec_cxx; }
@@ -16,10 +16,10 @@ namespace NitroTestExternal { class HybridSomeExternalObjectSpec_cxx; }
 namespace margelo::nitro::test::external { struct OptionalPrimitivesHolder; }
 
 #include <string>
-#include "OptionalPrimitivesHolder.hpp"
+#include "../../shared/c++/OptionalPrimitivesHolder.hpp"
 #include <optional>
 
-#include "NitroTestExternal-Swift-Cxx-Umbrella.hpp"
+#include "../NitroTestExternal-Swift-Cxx-Umbrella.hpp"
 
 namespace margelo::nitro::test::external {
 
