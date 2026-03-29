@@ -23,7 +23,7 @@ namespace margelo::nitro::test { class HybridPlatformObjectSpec; }
 // Forward declaration of `HybridRecyclableTestViewSpec` to properly resolve imports.
 namespace margelo::nitro::test { class HybridRecyclableTestViewSpec; }
 // Forward declaration of `HybridSomeExternalObjectSpec` to properly resolve imports.
-namespace margelo::nitro::test::external { class HybridSomeExternalObjectSpec; }
+namespace margelo::nitro::test { class HybridSomeExternalObjectSpec; }
 // Forward declaration of `HybridTestObjectSwiftKotlinSpec` to properly resolve imports.
 namespace margelo::nitro::test { class HybridTestObjectSwiftKotlinSpec; }
 // Forward declaration of `HybridTestViewSpec` to properly resolve imports.
@@ -34,6 +34,8 @@ namespace margelo::nitro::test { struct JsStyleStruct; }
 namespace margelo::nitro::test { enum class OldEnum; }
 // Forward declaration of `OptionalCallback` to properly resolve imports.
 namespace margelo::nitro::test { struct OptionalCallback; }
+// Forward declaration of `OptionalPrimitivesHolder` to properly resolve imports.
+namespace margelo::nitro::test { struct OptionalPrimitivesHolder; }
 // Forward declaration of `OptionalWrapper` to properly resolve imports.
 namespace margelo::nitro::test { struct OptionalWrapper; }
 // Forward declaration of `PartialPerson` to properly resolve imports.
@@ -57,7 +59,7 @@ namespace NitroTest { class HybridPlatformObjectSpec_cxx; }
 // Forward declaration of `HybridRecyclableTestViewSpec_cxx` to properly resolve imports.
 namespace NitroTest { class HybridRecyclableTestViewSpec_cxx; }
 // Forward declaration of `HybridSomeExternalObjectSpec_cxx` to properly resolve imports.
-namespace NitroTestExternal { class HybridSomeExternalObjectSpec_cxx; }
+namespace NitroTest { class HybridSomeExternalObjectSpec_cxx; }
 // Forward declaration of `HybridTestObjectSwiftKotlinSpec_cxx` to properly resolve imports.
 namespace NitroTest { class HybridTestObjectSwiftKotlinSpec_cxx; }
 // Forward declaration of `HybridTestViewSpec_cxx` to properly resolve imports.
@@ -70,11 +72,13 @@ namespace NitroTest { class HybridTestViewSpec_cxx; }
 #include "../shared/c++/HybridChildSpec.hpp"
 #include "../shared/c++/HybridPlatformObjectSpec.hpp"
 #include "../shared/c++/HybridRecyclableTestViewSpec.hpp"
+#include "../shared/c++/HybridSomeExternalObjectSpec.hpp"
 #include "../shared/c++/HybridTestObjectSwiftKotlinSpec.hpp"
 #include "../shared/c++/HybridTestViewSpec.hpp"
 #include "../shared/c++/JsStyleStruct.hpp"
 #include "../shared/c++/OldEnum.hpp"
 #include "../shared/c++/OptionalCallback.hpp"
+#include "../shared/c++/OptionalPrimitivesHolder.hpp"
 #include "../shared/c++/OptionalWrapper.hpp"
 #include "../shared/c++/PartialPerson.hpp"
 #include "../shared/c++/Person.hpp"
@@ -88,7 +92,6 @@ namespace NitroTest { class HybridTestViewSpec_cxx; }
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/PromiseHolder.hpp>
 #include <NitroModules/Result.hpp>
-#include <NitroTestExternal/HybridSomeExternalObjectSpec.hpp>
 #include <chrono>
 #include <exception>
 #include <functional>
@@ -314,6 +317,72 @@ namespace margelo::nitro::test::bridge::swift {
   using std__weak_ptr_HybridRecyclableTestViewSpec_ = std::weak_ptr<HybridRecyclableTestViewSpec>;
   inline std__weak_ptr_HybridRecyclableTestViewSpec_ weakify_std__shared_ptr_HybridRecyclableTestViewSpec_(const std::shared_ptr<HybridRecyclableTestViewSpec>& strong) noexcept { return strong; }
   
+  // pragma MARK: std::optional<double>
+  /**
+   * Specialized version of `std::optional<double>`.
+   */
+  using std__optional_double_ = std::optional<double>;
+  inline std::optional<double> create_std__optional_double_(const double& value) noexcept {
+    return std::optional<double>(value);
+  }
+  inline bool has_value_std__optional_double_(const std::optional<double>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline double get_std__optional_double_(const std::optional<double>& optional) noexcept {
+    return optional.value();
+  }
+  
+  // pragma MARK: std::optional<uint64_t>
+  /**
+   * Specialized version of `std::optional<uint64_t>`.
+   */
+  using std__optional_uint64_t_ = std::optional<uint64_t>;
+  inline std::optional<uint64_t> create_std__optional_uint64_t_(const uint64_t& value) noexcept {
+    return std::optional<uint64_t>(value);
+  }
+  inline bool has_value_std__optional_uint64_t_(const std::optional<uint64_t>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline uint64_t get_std__optional_uint64_t_(const std::optional<uint64_t>& optional) noexcept {
+    return optional.value();
+  }
+  
+  // pragma MARK: std::optional<int64_t>
+  /**
+   * Specialized version of `std::optional<int64_t>`.
+   */
+  using std__optional_int64_t_ = std::optional<int64_t>;
+  inline std::optional<int64_t> create_std__optional_int64_t_(const int64_t& value) noexcept {
+    return std::optional<int64_t>(value);
+  }
+  inline bool has_value_std__optional_int64_t_(const std::optional<int64_t>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline int64_t get_std__optional_int64_t_(const std::optional<int64_t>& optional) noexcept {
+    return optional.value();
+  }
+  
+  // pragma MARK: std::shared_ptr<HybridSomeExternalObjectSpec>
+  /**
+   * Specialized version of `std::shared_ptr<HybridSomeExternalObjectSpec>`.
+   */
+  using std__shared_ptr_HybridSomeExternalObjectSpec_ = std::shared_ptr<HybridSomeExternalObjectSpec>;
+  std::shared_ptr<HybridSomeExternalObjectSpec> create_std__shared_ptr_HybridSomeExternalObjectSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
+  void* NON_NULL get_std__shared_ptr_HybridSomeExternalObjectSpec_(std__shared_ptr_HybridSomeExternalObjectSpec_ cppType);
+  
+  // pragma MARK: std::weak_ptr<HybridSomeExternalObjectSpec>
+  using std__weak_ptr_HybridSomeExternalObjectSpec_ = std::weak_ptr<HybridSomeExternalObjectSpec>;
+  inline std__weak_ptr_HybridSomeExternalObjectSpec_ weakify_std__shared_ptr_HybridSomeExternalObjectSpec_(const std::shared_ptr<HybridSomeExternalObjectSpec>& strong) noexcept { return strong; }
+  
+  // pragma MARK: Result<OptionalPrimitivesHolder>
+  using Result_OptionalPrimitivesHolder_ = Result<OptionalPrimitivesHolder>;
+  inline Result_OptionalPrimitivesHolder_ create_Result_OptionalPrimitivesHolder_(const OptionalPrimitivesHolder& value) noexcept {
+    return Result<OptionalPrimitivesHolder>::withValue(value);
+  }
+  inline Result_OptionalPrimitivesHolder_ create_Result_OptionalPrimitivesHolder_(const std::exception_ptr& error) noexcept {
+    return Result<OptionalPrimitivesHolder>::withError(error);
+  }
+  
   // pragma MARK: std::shared_ptr<HybridTestObjectSwiftKotlinSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridTestObjectSwiftKotlinSpec>`.
@@ -489,21 +558,6 @@ namespace margelo::nitro::test::bridge::swift {
     return optional.has_value();
   }
   inline std::function<void(double /* value */)> get_std__optional_std__function_void_double____value______(const std::optional<std::function<void(double /* value */)>>& optional) noexcept {
-    return optional.value();
-  }
-  
-  // pragma MARK: std::optional<double>
-  /**
-   * Specialized version of `std::optional<double>`.
-   */
-  using std__optional_double_ = std::optional<double>;
-  inline std::optional<double> create_std__optional_double_(const double& value) noexcept {
-    return std::optional<double>(value);
-  }
-  inline bool has_value_std__optional_double_(const std::optional<double>& optional) noexcept {
-    return optional.has_value();
-  }
-  inline double get_std__optional_double_(const std::optional<double>& optional) noexcept {
     return optional.value();
   }
   
@@ -1501,68 +1555,56 @@ namespace margelo::nitro::test::bridge::swift {
   using std__weak_ptr_HybridTestViewSpec_ = std::weak_ptr<HybridTestViewSpec>;
   inline std__weak_ptr_HybridTestViewSpec_ weakify_std__shared_ptr_HybridTestViewSpec_(const std::shared_ptr<HybridTestViewSpec>& strong) noexcept { return strong; }
   
-  // pragma MARK: std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>
+  // pragma MARK: std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>
   /**
-   * Specialized version of `std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>`.
-   */
-  using std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_ = std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>;
-  std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> create_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
-  void* NON_NULL get_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_(std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_ cppType);
-  
-  // pragma MARK: std::weak_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>
-  using std__weak_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_ = std::weak_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>;
-  inline std__weak_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_ weakify_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_(const std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>& strong) noexcept { return strong; }
-  
-  // pragma MARK: std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>
-  /**
-   * Wrapper struct for `std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>`.
+   * Wrapper struct for `std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>`.
    * std::variant cannot be used in Swift because of a Swift bug.
    * Not even specializing it works. So we create a wrapper struct.
    */
-  struct std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string_ final {
-    std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string> variant;
-    std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string_(std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string> variant): variant(variant) { }
-    operator std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>() const noexcept {
+  struct std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string_ final {
+    std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string> variant;
+    std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string_(std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string> variant): variant(variant) { }
+    operator std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>() const noexcept {
       return variant;
     }
     inline size_t index() const noexcept {
       return variant.index();
     }
-    inline std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> get_0() const noexcept {
+    inline std::shared_ptr<HybridSomeExternalObjectSpec> get_0() const noexcept {
       return std::get<0>(variant);
     }
     inline std::string get_1() const noexcept {
       return std::get<1>(variant);
     }
   };
-  inline std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string_ create_std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string_(const std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>& value) noexcept {
-    return std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string_(value);
+  inline std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string_ create_std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string_(const std::shared_ptr<HybridSomeExternalObjectSpec>& value) noexcept {
+    return std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string_(value);
   }
-  inline std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string_ create_std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string_(const std::string& value) noexcept {
-    return std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string_(value);
+  inline std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string_ create_std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string_(const std::string& value) noexcept {
+    return std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string_(value);
   }
   
-  // pragma MARK: std::function<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>()>
+  // pragma MARK: std::function<std::shared_ptr<HybridSomeExternalObjectSpec>()>
   /**
-   * Specialized version of `std::function<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>()>`.
+   * Specialized version of `std::function<std::shared_ptr<HybridSomeExternalObjectSpec>()>`.
    */
-  using Func_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_ = std::function<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>()>;
+  using Func_std__shared_ptr_HybridSomeExternalObjectSpec_ = std::function<std::shared_ptr<HybridSomeExternalObjectSpec>()>;
   /**
-   * Wrapper class for a `std::function<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>()>`, this can be used from Swift.
+   * Wrapper class for a `std::function<std::shared_ptr<HybridSomeExternalObjectSpec>()>`, this can be used from Swift.
    */
-  class Func_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec__Wrapper final {
+  class Func_std__shared_ptr_HybridSomeExternalObjectSpec__Wrapper final {
   public:
-    explicit Func_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec__Wrapper(std::function<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>()>&& func): _function(std::make_unique<std::function<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>()>>(std::move(func))) {}
-    inline std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> call() const noexcept {
+    explicit Func_std__shared_ptr_HybridSomeExternalObjectSpec__Wrapper(std::function<std::shared_ptr<HybridSomeExternalObjectSpec>()>&& func): _function(std::make_unique<std::function<std::shared_ptr<HybridSomeExternalObjectSpec>()>>(std::move(func))) {}
+    inline std::shared_ptr<HybridSomeExternalObjectSpec> call() const noexcept {
       auto __result = _function->operator()();
       return __result;
     }
   private:
-    std::unique_ptr<std::function<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>()>> _function;
+    std::unique_ptr<std::function<std::shared_ptr<HybridSomeExternalObjectSpec>()>> _function;
   } SWIFT_NONCOPYABLE;
-  Func_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_ create_Func_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_(void* NON_NULL swiftClosureWrapper) noexcept;
-  inline Func_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec__Wrapper wrap_Func_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_(Func_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_ value) noexcept {
-    return Func_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec__Wrapper(std::move(value));
+  Func_std__shared_ptr_HybridSomeExternalObjectSpec_ create_Func_std__shared_ptr_HybridSomeExternalObjectSpec_(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_std__shared_ptr_HybridSomeExternalObjectSpec__Wrapper wrap_Func_std__shared_ptr_HybridSomeExternalObjectSpec_(Func_std__shared_ptr_HybridSomeExternalObjectSpec_ value) noexcept {
+    return Func_std__shared_ptr_HybridSomeExternalObjectSpec__Wrapper(std::move(value));
   }
   
   // pragma MARK: Result<std::shared_ptr<HybridTestObjectSwiftKotlinSpec>>
@@ -1970,13 +2012,13 @@ namespace margelo::nitro::test::bridge::swift {
     return Result<std::shared_ptr<HybridBaseSpec>>::withError(error);
   }
   
-  // pragma MARK: Result<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>>
-  using Result_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec__ = Result<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>>;
-  inline Result_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec__ create_Result_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec__(const std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>& value) noexcept {
-    return Result<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>>::withValue(value);
+  // pragma MARK: Result<std::shared_ptr<HybridSomeExternalObjectSpec>>
+  using Result_std__shared_ptr_HybridSomeExternalObjectSpec__ = Result<std::shared_ptr<HybridSomeExternalObjectSpec>>;
+  inline Result_std__shared_ptr_HybridSomeExternalObjectSpec__ create_Result_std__shared_ptr_HybridSomeExternalObjectSpec__(const std::shared_ptr<HybridSomeExternalObjectSpec>& value) noexcept {
+    return Result<std::shared_ptr<HybridSomeExternalObjectSpec>>::withValue(value);
   }
-  inline Result_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec__ create_Result_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec__(const std::exception_ptr& error) noexcept {
-    return Result<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>>::withError(error);
+  inline Result_std__shared_ptr_HybridSomeExternalObjectSpec__ create_Result_std__shared_ptr_HybridSomeExternalObjectSpec__(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<HybridSomeExternalObjectSpec>>::withError(error);
   }
   
   // pragma MARK: Result<ExternalObjectStruct>
@@ -1988,13 +2030,13 @@ namespace margelo::nitro::test::bridge::swift {
     return Result<ExternalObjectStruct>::withError(error);
   }
   
-  // pragma MARK: Result<std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>>
-  using Result_std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string__ = Result<std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>>;
-  inline Result_std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string__ create_Result_std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string__(const std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>& value) noexcept {
-    return Result<std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>>::withValue(value);
+  // pragma MARK: Result<std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>>
+  using Result_std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string__ = Result<std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>>;
+  inline Result_std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string__ create_Result_std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string__(const std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>& value) noexcept {
+    return Result<std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>>::withValue(value);
   }
-  inline Result_std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string__ create_Result_std__variant_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec___std__string__(const std::exception_ptr& error) noexcept {
-    return Result<std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>>::withError(error);
+  inline Result_std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string__ create_Result_std__variant_std__shared_ptr_HybridSomeExternalObjectSpec___std__string__(const std::exception_ptr& error) noexcept {
+    return Result<std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>>::withError(error);
   }
 
 } // namespace margelo::nitro::test::bridge::swift

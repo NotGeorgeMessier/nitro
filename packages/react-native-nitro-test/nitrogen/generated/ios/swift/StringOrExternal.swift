@@ -5,7 +5,7 @@
 /// Copyright © Marc Rousavy @ Margelo
 ///
 
-import NitroTestExternal
+
 
 /**
  * An Swift enum with associated values representing a Variant/Union type.

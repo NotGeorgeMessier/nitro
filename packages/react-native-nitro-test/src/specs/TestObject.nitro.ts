@@ -8,9 +8,33 @@ import {
   type Int64,
 } from 'react-native-nitro-modules'
 import type { TestView } from './TestView.nitro'
-import type { SomeExternalObject } from 'react-native-nitro-test-external'
+// import type { SomeExternalObject } from 'react-native-nitro-test-external'
 import type { Child } from './Child.nitro'
 import type { Base } from './Base.nitro'
+
+export interface OptionalPrimitivesHolder {
+  optionalNumber?: number
+  optionalBoolean?: boolean
+  optionalUInt64?: UInt64
+  optionalInt64?: Int64
+}
+/**
+ * This hybrid object is implemented in Swift and Kotlin.
+ * It can be called from Swift/Kotlin, as well as C++ directly.
+ */
+export interface SomeExternalObject
+  extends HybridObject<{
+    ios: 'swift'
+    android: 'kotlin'
+  }> {
+  getValue(): string
+  createOptionalPrimitivesHolder(
+    optionalNumber?: number,
+    optionalBoolean?: boolean,
+    optionalUInt64?: UInt64,
+    optionalInt64?: Int64
+  ): OptionalPrimitivesHolder
+}
 
 // Tuples become `std::tuple<...>` in C++.
 // In contrast to arrays, they are length-checked, and can have different types inside them.

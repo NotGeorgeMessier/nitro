@@ -9,11 +9,11 @@
 
 namespace margelo::nitro::test {
   /**
-   * Converts JStringOrExternal to std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>
+   * Converts JStringOrExternal to std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>
    */
-  std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string> JStringOrExternal::toCpp() const {
+  std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string> JStringOrExternal::toCpp() const {
     if (isInstanceOf(JStringOrExternal_impl::First::javaClassStatic())) {
-      // It's a `std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>`
+      // It's a `std::shared_ptr<HybridSomeExternalObjectSpec>`
       auto jniValue = static_cast<const JStringOrExternal_impl::First*>(this)->getValue();
       return jniValue->getJHybridSomeExternalObjectSpec();
     } else if (isInstanceOf(JStringOrExternal_impl::Second::javaClassStatic())) {

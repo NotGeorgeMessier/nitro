@@ -20,6 +20,7 @@
 #include "JHybridPlatformObjectSpec.hpp"
 #include "JHybridRecyclableTestViewSpec.hpp"
 #include "views/JHybridRecyclableTestViewStateUpdater.hpp"
+#include "JHybridSomeExternalObjectSpec.hpp"
 #include "JHybridTestObjectSwiftKotlinSpec.hpp"
 #include "JFunc_void_double.hpp"
 #include "JFunc_void.hpp"
@@ -33,7 +34,7 @@
 #include "JFunc_void_std__exception_ptr.hpp"
 #include "JFunc_std__shared_ptr_Promise_std__string__.hpp"
 #include "JFunc_double.hpp"
-#include "JFunc_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_.hpp"
+#include "JFunc_std__shared_ptr_HybridSomeExternalObjectSpec_.hpp"
 #include "JHybridTestViewSpec.hpp"
 #include "views/JHybridTestViewStateUpdater.hpp"
 #include "HybridTestObjectCpp.hpp"
@@ -106,6 +107,7 @@ void registerAllNatives() {
   margelo::nitro::test::JHybridPlatformObjectSpec::CxxPart::registerNatives();
   margelo::nitro::test::JHybridRecyclableTestViewSpec::CxxPart::registerNatives();
   margelo::nitro::test::views::JHybridRecyclableTestViewStateUpdater::registerNatives();
+  margelo::nitro::test::JHybridSomeExternalObjectSpec::CxxPart::registerNatives();
   margelo::nitro::test::JHybridTestObjectSwiftKotlinSpec::CxxPart::registerNatives();
   margelo::nitro::test::JFunc_void_double_cxx::registerNatives();
   margelo::nitro::test::JFunc_void_cxx::registerNatives();
@@ -119,7 +121,7 @@ void registerAllNatives() {
   margelo::nitro::test::JFunc_void_std__exception_ptr_cxx::registerNatives();
   margelo::nitro::test::JFunc_std__shared_ptr_Promise_std__string___cxx::registerNatives();
   margelo::nitro::test::JFunc_double_cxx::registerNatives();
-  margelo::nitro::test::JFunc_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec__cxx::registerNatives();
+  margelo::nitro::test::JFunc_std__shared_ptr_HybridSomeExternalObjectSpec__cxx::registerNatives();
   margelo::nitro::test::JHybridTestViewSpec::CxxPart::registerNatives();
   margelo::nitro::test::views::JHybridTestViewStateUpdater::registerNatives();
 

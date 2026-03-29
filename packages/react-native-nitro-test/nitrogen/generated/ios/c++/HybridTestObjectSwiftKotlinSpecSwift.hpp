@@ -47,7 +47,7 @@ namespace margelo::nitro::test { class HybridBaseSpec; }
 // Forward declaration of `HybridTestViewSpec` to properly resolve imports.
 namespace margelo::nitro::test { class HybridTestViewSpec; }
 // Forward declaration of `HybridSomeExternalObjectSpec` to properly resolve imports.
-namespace margelo::nitro::test::external { class HybridSomeExternalObjectSpec; }
+namespace margelo::nitro::test { class HybridSomeExternalObjectSpec; }
 // Forward declaration of `ExternalObjectStruct` to properly resolve imports.
 namespace margelo::nitro::test { struct ExternalObjectStruct; }
 
@@ -81,7 +81,7 @@ namespace margelo::nitro::test { struct ExternalObjectStruct; }
 #include "../../shared/c++/WeirdNumbersEnum.hpp"
 #include "../../shared/c++/HybridBaseSpec.hpp"
 #include "../../shared/c++/HybridTestViewSpec.hpp"
-#include <NitroTestExternal/HybridSomeExternalObjectSpec.hpp>
+#include "../../shared/c++/HybridSomeExternalObjectSpec.hpp"
 #include "../../shared/c++/ExternalObjectStruct.hpp"
 
 #include "../NitroTest-Swift-Cxx-Umbrella.hpp"
@@ -962,7 +962,7 @@ namespace margelo::nitro::test {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> bounceExternalHybrid(const std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>& externalObject) override {
+    inline std::shared_ptr<HybridSomeExternalObjectSpec> bounceExternalHybrid(const std::shared_ptr<HybridSomeExternalObjectSpec>& externalObject) override {
       auto __result = _swiftPart.bounceExternalHybrid(externalObject);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
@@ -970,7 +970,7 @@ namespace margelo::nitro::test {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> createInternalObject() override {
+    inline std::shared_ptr<HybridSomeExternalObjectSpec> createInternalObject() override {
       auto __result = _swiftPart.createInternalObject();
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
@@ -986,7 +986,7 @@ namespace margelo::nitro::test {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string> bounceExternalVariant(const std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>& variant) override {
+    inline std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string> bounceExternalVariant(const std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>& variant) override {
       auto __result = _swiftPart.bounceExternalVariant(variant);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
@@ -994,7 +994,7 @@ namespace margelo::nitro::test {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> createExternalVariantFromFunc(const std::function<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>()>& factory) override {
+    inline std::shared_ptr<HybridSomeExternalObjectSpec> createExternalVariantFromFunc(const std::function<std::shared_ptr<HybridSomeExternalObjectSpec>()>& factory) override {
       auto __result = _swiftPart.createExternalVariantFromFunc(factory);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());

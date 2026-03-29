@@ -14,7 +14,6 @@ import com.margelo.nitro.core.NullType
 import com.margelo.nitro.core.AnyMap
 import com.margelo.nitro.core.Promise
 import com.margelo.nitro.core.ArrayBuffer
-import com.margelo.nitro.test.external.HybridSomeExternalObjectSpec
 import com.margelo.nitro.core.HybridObject
 
 /**
@@ -607,11 +606,11 @@ abstract class HybridTestObjectSwiftKotlinSpec: HybridObject() {
   
   @DoNotStrip
   @Keep
-  abstract fun bounceExternalHybrid(externalObject: com.margelo.nitro.test.external.HybridSomeExternalObjectSpec): com.margelo.nitro.test.external.HybridSomeExternalObjectSpec
+  abstract fun bounceExternalHybrid(externalObject: HybridSomeExternalObjectSpec): HybridSomeExternalObjectSpec
   
   @DoNotStrip
   @Keep
-  abstract fun createInternalObject(): com.margelo.nitro.test.external.HybridSomeExternalObjectSpec
+  abstract fun createInternalObject(): HybridSomeExternalObjectSpec
   
   @DoNotStrip
   @Keep
@@ -621,11 +620,11 @@ abstract class HybridTestObjectSwiftKotlinSpec: HybridObject() {
   @Keep
   abstract fun bounceExternalVariant(variant: StringOrExternal): StringOrExternal
   
-  abstract fun createExternalVariantFromFunc(factory: () -> com.margelo.nitro.test.external.HybridSomeExternalObjectSpec): com.margelo.nitro.test.external.HybridSomeExternalObjectSpec
+  abstract fun createExternalVariantFromFunc(factory: () -> HybridSomeExternalObjectSpec): HybridSomeExternalObjectSpec
   
   @DoNotStrip
   @Keep
-  private fun createExternalVariantFromFunc_cxx(factory: Func_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_): com.margelo.nitro.test.external.HybridSomeExternalObjectSpec {
+  private fun createExternalVariantFromFunc_cxx(factory: Func_std__shared_ptr_HybridSomeExternalObjectSpec_): HybridSomeExternalObjectSpec {
     val __result = createExternalVariantFromFunc(factory)
     return __result
   }

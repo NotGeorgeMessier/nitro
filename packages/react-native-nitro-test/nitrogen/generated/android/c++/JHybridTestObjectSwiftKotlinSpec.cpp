@@ -34,7 +34,7 @@ namespace margelo::nitro::test { enum class WeirdNumbersEnum; }
 // Forward declaration of `HybridBaseSpec` to properly resolve imports.
 namespace margelo::nitro::test { class HybridBaseSpec; }
 // Forward declaration of `HybridSomeExternalObjectSpec` to properly resolve imports.
-namespace margelo::nitro::test::external { class HybridSomeExternalObjectSpec; }
+namespace margelo::nitro::test { class HybridSomeExternalObjectSpec; }
 // Forward declaration of `ExternalObjectStruct` to properly resolve imports.
 namespace margelo::nitro::test { struct ExternalObjectStruct; }
 // Forward declaration of `MapWrapper` to properly resolve imports.
@@ -102,8 +102,8 @@ namespace margelo::nitro::test { class HybridTestViewSpec; }
 #include "JVariant_HybridBaseSpec_OptionalWrapper.hpp"
 #include "JHybridBaseSpec.hpp"
 #include "JCoreTypesVariant.hpp"
-#include <NitroTestExternal/HybridSomeExternalObjectSpec.hpp>
-#include <NitroTestExternal/JHybridSomeExternalObjectSpec.hpp>
+#include "HybridSomeExternalObjectSpec.hpp"
+#include "JHybridSomeExternalObjectSpec.hpp"
 #include "ExternalObjectStruct.hpp"
 #include "JExternalObjectStruct.hpp"
 #include "JStringOrExternal.hpp"
@@ -125,7 +125,7 @@ namespace margelo::nitro::test { class HybridTestViewSpec; }
 #include "JFunc_double.hpp"
 #include "HybridTestViewSpec.hpp"
 #include "JHybridTestViewSpec.hpp"
-#include "JFunc_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_.hpp"
+#include "JFunc_std__shared_ptr_HybridSomeExternalObjectSpec_.hpp"
 
 namespace margelo::nitro::test {
 
@@ -1281,13 +1281,13 @@ namespace margelo::nitro::test {
     auto __result = method(_javaPart, std::dynamic_pointer_cast<JHybridTestViewSpec>(view)->getJavaPart());
     return static_cast<bool>(__result);
   }
-  std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> JHybridTestObjectSwiftKotlinSpec::bounceExternalHybrid(const std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>& externalObject) {
-    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<margelo::nitro::test::external::JHybridSomeExternalObjectSpec::JavaPart>(jni::alias_ref<margelo::nitro::test::external::JHybridSomeExternalObjectSpec::JavaPart> /* externalObject */)>("bounceExternalHybrid");
-    auto __result = method(_javaPart, std::dynamic_pointer_cast<margelo::nitro::test::external::JHybridSomeExternalObjectSpec>(externalObject)->getJavaPart());
+  std::shared_ptr<HybridSomeExternalObjectSpec> JHybridTestObjectSwiftKotlinSpec::bounceExternalHybrid(const std::shared_ptr<HybridSomeExternalObjectSpec>& externalObject) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JHybridSomeExternalObjectSpec::JavaPart>(jni::alias_ref<JHybridSomeExternalObjectSpec::JavaPart> /* externalObject */)>("bounceExternalHybrid");
+    auto __result = method(_javaPart, std::dynamic_pointer_cast<JHybridSomeExternalObjectSpec>(externalObject)->getJavaPart());
     return __result->getJHybridSomeExternalObjectSpec();
   }
-  std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> JHybridTestObjectSwiftKotlinSpec::createInternalObject() {
-    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<margelo::nitro::test::external::JHybridSomeExternalObjectSpec::JavaPart>()>("createInternalObject");
+  std::shared_ptr<HybridSomeExternalObjectSpec> JHybridTestObjectSwiftKotlinSpec::createInternalObject() {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JHybridSomeExternalObjectSpec::JavaPart>()>("createInternalObject");
     auto __result = method(_javaPart);
     return __result->getJHybridSomeExternalObjectSpec();
   }
@@ -1296,14 +1296,14 @@ namespace margelo::nitro::test {
     auto __result = method(_javaPart, JExternalObjectStruct::fromCpp(externalStruct));
     return __result->toCpp();
   }
-  std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string> JHybridTestObjectSwiftKotlinSpec::bounceExternalVariant(const std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>& variant) {
+  std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string> JHybridTestObjectSwiftKotlinSpec::bounceExternalVariant(const std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>& variant) {
     static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JStringOrExternal>(jni::alias_ref<JStringOrExternal> /* variant */)>("bounceExternalVariant");
     auto __result = method(_javaPart, JStringOrExternal::fromCpp(variant));
     return __result->toCpp();
   }
-  std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> JHybridTestObjectSwiftKotlinSpec::createExternalVariantFromFunc(const std::function<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>()>& factory) {
-    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<margelo::nitro::test::external::JHybridSomeExternalObjectSpec::JavaPart>(jni::alias_ref<JFunc_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_::javaobject> /* factory */)>("createExternalVariantFromFunc_cxx");
-    auto __result = method(_javaPart, JFunc_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec__cxx::fromCpp(factory));
+  std::shared_ptr<HybridSomeExternalObjectSpec> JHybridTestObjectSwiftKotlinSpec::createExternalVariantFromFunc(const std::function<std::shared_ptr<HybridSomeExternalObjectSpec>()>& factory) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JHybridSomeExternalObjectSpec::JavaPart>(jni::alias_ref<JFunc_std__shared_ptr_HybridSomeExternalObjectSpec_::javaobject> /* factory */)>("createExternalVariantFromFunc_cxx");
+    auto __result = method(_javaPart, JFunc_std__shared_ptr_HybridSomeExternalObjectSpec__cxx::fromCpp(factory));
     return __result->getJHybridSomeExternalObjectSpec();
   }
 

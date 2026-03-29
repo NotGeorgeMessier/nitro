@@ -23,7 +23,7 @@ namespace margelo::nitro::test { class HybridPlatformObjectSpec; }
 // Forward declaration of `HybridRecyclableTestViewSpec` to properly resolve imports.
 namespace margelo::nitro::test { class HybridRecyclableTestViewSpec; }
 // Forward declaration of `HybridSomeExternalObjectSpec` to properly resolve imports.
-namespace margelo::nitro::test::external { class HybridSomeExternalObjectSpec; }
+namespace margelo::nitro::test { class HybridSomeExternalObjectSpec; }
 // Forward declaration of `HybridTestObjectSwiftKotlinSpec` to properly resolve imports.
 namespace margelo::nitro::test { class HybridTestObjectSwiftKotlinSpec; }
 // Forward declaration of `HybridTestViewSpec` to properly resolve imports.
@@ -36,6 +36,8 @@ namespace margelo::nitro::test { struct MapWrapper; }
 namespace margelo::nitro::test { enum class OldEnum; }
 // Forward declaration of `OptionalCallback` to properly resolve imports.
 namespace margelo::nitro::test { struct OptionalCallback; }
+// Forward declaration of `OptionalPrimitivesHolder` to properly resolve imports.
+namespace margelo::nitro::test { struct OptionalPrimitivesHolder; }
 // Forward declaration of `OptionalWrapper` to properly resolve imports.
 namespace margelo::nitro::test { struct OptionalWrapper; }
 // Forward declaration of `PartialPerson` to properly resolve imports.
@@ -59,12 +61,14 @@ namespace margelo::nitro::test { struct WrappedJsStruct; }
 #include "../shared/c++/HybridChildSpec.hpp"
 #include "../shared/c++/HybridPlatformObjectSpec.hpp"
 #include "../shared/c++/HybridRecyclableTestViewSpec.hpp"
+#include "../shared/c++/HybridSomeExternalObjectSpec.hpp"
 #include "../shared/c++/HybridTestObjectSwiftKotlinSpec.hpp"
 #include "../shared/c++/HybridTestViewSpec.hpp"
 #include "../shared/c++/JsStyleStruct.hpp"
 #include "../shared/c++/MapWrapper.hpp"
 #include "../shared/c++/OldEnum.hpp"
 #include "../shared/c++/OptionalCallback.hpp"
+#include "../shared/c++/OptionalPrimitivesHolder.hpp"
 #include "../shared/c++/OptionalWrapper.hpp"
 #include "../shared/c++/PartialPerson.hpp"
 #include "../shared/c++/Person.hpp"
@@ -77,7 +81,6 @@ namespace margelo::nitro::test { struct WrappedJsStruct; }
 #include <NitroModules/Null.hpp>
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/Result.hpp>
-#include <NitroTestExternal/HybridSomeExternalObjectSpec.hpp>
 #include <chrono>
 #include <exception>
 #include <functional>
@@ -107,7 +110,7 @@ namespace NitroTest { class HybridPlatformObjectSpec_cxx; }
 // Forward declaration of `HybridRecyclableTestViewSpec_cxx` to properly resolve imports.
 namespace NitroTest { class HybridRecyclableTestViewSpec_cxx; }
 // Forward declaration of `HybridSomeExternalObjectSpec_cxx` to properly resolve imports.
-namespace NitroTestExternal { class HybridSomeExternalObjectSpec_cxx; }
+namespace NitroTest { class HybridSomeExternalObjectSpec_cxx; }
 // Forward declaration of `HybridTestObjectSwiftKotlinSpec_cxx` to properly resolve imports.
 namespace NitroTest { class HybridTestObjectSwiftKotlinSpec_cxx; }
 // Forward declaration of `HybridTestViewSpec_cxx` to properly resolve imports.

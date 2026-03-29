@@ -8,16 +8,16 @@
 package com.margelo.nitro.test
 
 import com.facebook.proguard.annotations.DoNotStrip
-import com.margelo.nitro.test.external.HybridSomeExternalObjectSpec
+
 
 /**
- * Represents the TypeScript variant "com.margelo.nitro.test.external.HybridSomeExternalObjectSpec | String".
+ * Represents the TypeScript variant "HybridSomeExternalObjectSpec | String".
  */
 @Suppress("ClassName")
 @DoNotStrip
 sealed class StringOrExternal {
   @DoNotStrip
-  data class First(@DoNotStrip val value: com.margelo.nitro.test.external.HybridSomeExternalObjectSpec): StringOrExternal()
+  data class First(@DoNotStrip val value: HybridSomeExternalObjectSpec): StringOrExternal()
   @DoNotStrip
   data class Second(@DoNotStrip val value: String): StringOrExternal()
 
@@ -26,7 +26,7 @@ sealed class StringOrExternal {
   val isSecond: Boolean
     get() = this is Second
 
-  fun asFirstOrNull(): com.margelo.nitro.test.external.HybridSomeExternalObjectSpec? {
+  fun asFirstOrNull(): HybridSomeExternalObjectSpec? {
     val value = (this as? First)?.value ?: return null
     return value
   }
@@ -35,7 +35,7 @@ sealed class StringOrExternal {
     return value
   }
 
-  inline fun <R> match(first: (com.margelo.nitro.test.external.HybridSomeExternalObjectSpec) -> R, second: (String) -> R): R {
+  inline fun <R> match(first: (HybridSomeExternalObjectSpec) -> R, second: (String) -> R): R {
     return when (this) {
       is First -> first(value)
       is Second -> second(value)
@@ -45,7 +45,7 @@ sealed class StringOrExternal {
   companion object {
     @JvmStatic
     @DoNotStrip
-    fun create(value: com.margelo.nitro.test.external.HybridSomeExternalObjectSpec): StringOrExternal = First(value)
+    fun create(value: HybridSomeExternalObjectSpec): StringOrExternal = First(value)
     @JvmStatic
     @DoNotStrip
     fun create(value: String): StringOrExternal = Second(value)

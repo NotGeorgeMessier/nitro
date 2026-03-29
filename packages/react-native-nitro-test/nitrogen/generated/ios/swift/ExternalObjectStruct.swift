@@ -5,7 +5,6 @@
 /// Copyright © Marc Rousavy @ Margelo
 ///
 
-import NitroTestExternal
 import NitroModules
 
 /**
@@ -20,7 +19,7 @@ public extension ExternalObjectStruct {
    * Create a new instance of `ExternalObjectStruct`.
    */
   init(someExternal: (any HybridSomeExternalObjectSpec)) {
-    self.init({ () -> bridge.std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_ in
+    self.init({ () -> bridge.std__shared_ptr_HybridSomeExternalObjectSpec_ in
       let __cxxWrapped = someExternal.getCxxWrapper()
       return __cxxWrapped.getCxxPart()
     }())
@@ -29,7 +28,7 @@ public extension ExternalObjectStruct {
   @inline(__always)
   var someExternal: (any HybridSomeExternalObjectSpec) {
     return { () -> any HybridSomeExternalObjectSpec in
-      let __unsafePointer = bridge.get_std__shared_ptr_margelo__nitro__test__external__HybridSomeExternalObjectSpec_(self.__someExternal)
+      let __unsafePointer = bridge.get_std__shared_ptr_HybridSomeExternalObjectSpec_(self.__someExternal)
       let __instance = HybridSomeExternalObjectSpec_cxx.fromUnsafe(__unsafePointer)
       return __instance.getHybridSomeExternalObjectSpec()
     }()

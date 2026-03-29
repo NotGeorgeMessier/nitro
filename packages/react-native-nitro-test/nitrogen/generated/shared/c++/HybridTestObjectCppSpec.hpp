@@ -46,7 +46,7 @@ namespace margelo::nitro::test { class HybridBaseSpec; }
 // Forward declaration of `HybridTestViewSpec` to properly resolve imports.
 namespace margelo::nitro::test { class HybridTestViewSpec; }
 // Forward declaration of `HybridSomeExternalObjectSpec` to properly resolve imports.
-namespace margelo::nitro::test::external { class HybridSomeExternalObjectSpec; }
+namespace margelo::nitro::test { class HybridSomeExternalObjectSpec; }
 // Forward declaration of `ExternalObjectStruct` to properly resolve imports.
 namespace margelo::nitro::test { struct ExternalObjectStruct; }
 
@@ -81,7 +81,7 @@ namespace margelo::nitro::test { struct ExternalObjectStruct; }
 #include "WeirdNumbersEnum.hpp"
 #include "HybridBaseSpec.hpp"
 #include "HybridTestViewSpec.hpp"
-#include <NitroTestExternal/HybridSomeExternalObjectSpec.hpp>
+#include "HybridSomeExternalObjectSpec.hpp"
 #include "ExternalObjectStruct.hpp"
 
 namespace margelo::nitro::test {
@@ -249,11 +249,11 @@ namespace margelo::nitro::test {
       virtual std::shared_ptr<HybridChildSpec> castBase(const std::shared_ptr<HybridBaseSpec>& base) = 0;
       virtual double callbackSync(const std::function<double()>& callback) = 0;
       virtual bool getIsViewBlue(const std::shared_ptr<HybridTestViewSpec>& view) = 0;
-      virtual std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> bounceExternalHybrid(const std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>& externalObject) = 0;
-      virtual std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> createInternalObject() = 0;
+      virtual std::shared_ptr<HybridSomeExternalObjectSpec> bounceExternalHybrid(const std::shared_ptr<HybridSomeExternalObjectSpec>& externalObject) = 0;
+      virtual std::shared_ptr<HybridSomeExternalObjectSpec> createInternalObject() = 0;
       virtual ExternalObjectStruct bounceExternalStruct(const ExternalObjectStruct& externalStruct) = 0;
-      virtual std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string> bounceExternalVariant(const std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>& variant) = 0;
-      virtual std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec> createExternalVariantFromFunc(const std::function<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>()>& factory) = 0;
+      virtual std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string> bounceExternalVariant(const std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>& variant) = 0;
+      virtual std::shared_ptr<HybridSomeExternalObjectSpec> createExternalVariantFromFunc(const std::function<std::shared_ptr<HybridSomeExternalObjectSpec>()>& factory) = 0;
 
     protected:
       // Hybrid Setup

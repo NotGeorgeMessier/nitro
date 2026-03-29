@@ -11,10 +11,10 @@
 #include <variant>
 
 #include <memory>
-#include <NitroTestExternal/HybridSomeExternalObjectSpec.hpp>
+#include "HybridSomeExternalObjectSpec.hpp"
 #include <string>
 #include <variant>
-#include <NitroTestExternal/JHybridSomeExternalObjectSpec.hpp>
+#include "JHybridSomeExternalObjectSpec.hpp"
 
 namespace margelo::nitro::test {
 
@@ -27,8 +27,8 @@ namespace margelo::nitro::test {
   public:
     static constexpr auto kJavaDescriptor = "Lcom/margelo/nitro/test/StringOrExternal;";
 
-    static jni::local_ref<JStringOrExternal> create_0(jni::alias_ref<margelo::nitro::test::external::JHybridSomeExternalObjectSpec::JavaPart> value) {
-      static const auto method = javaClassStatic()->getStaticMethod<JStringOrExternal(jni::alias_ref<margelo::nitro::test::external::JHybridSomeExternalObjectSpec::JavaPart>)>("create");
+    static jni::local_ref<JStringOrExternal> create_0(jni::alias_ref<JHybridSomeExternalObjectSpec::JavaPart> value) {
+      static const auto method = javaClassStatic()->getStaticMethod<JStringOrExternal(jni::alias_ref<JHybridSomeExternalObjectSpec::JavaPart>)>("create");
       return method(javaClassStatic(), value);
     }
     static jni::local_ref<JStringOrExternal> create_1(jni::alias_ref<jni::JString> value) {
@@ -36,15 +36,15 @@ namespace margelo::nitro::test {
       return method(javaClassStatic(), value);
     }
 
-    static jni::local_ref<JStringOrExternal> fromCpp(const std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string>& variant) {
+    static jni::local_ref<JStringOrExternal> fromCpp(const std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string>& variant) {
       switch (variant.index()) {
-        case 0: return create_0(std::dynamic_pointer_cast<margelo::nitro::test::external::JHybridSomeExternalObjectSpec>(std::get<0>(variant))->getJavaPart());
+        case 0: return create_0(std::dynamic_pointer_cast<JHybridSomeExternalObjectSpec>(std::get<0>(variant))->getJavaPart());
         case 1: return create_1(jni::make_jstring(std::get<1>(variant)));
         default: throw std::invalid_argument("Variant holds unknown index! (" + std::to_string(variant.index()) + ")");
       }
     }
 
-    [[nodiscard]] std::variant<std::shared_ptr<margelo::nitro::test::external::HybridSomeExternalObjectSpec>, std::string> toCpp() const;
+    [[nodiscard]] std::variant<std::shared_ptr<HybridSomeExternalObjectSpec>, std::string> toCpp() const;
   };
 
   namespace JStringOrExternal_impl {
@@ -52,8 +52,8 @@ namespace margelo::nitro::test {
     public:
       static constexpr auto kJavaDescriptor = "Lcom/margelo/nitro/test/StringOrExternal$First;";
     
-      [[nodiscard]] jni::local_ref<margelo::nitro::test::external::JHybridSomeExternalObjectSpec::JavaPart> getValue() const {
-        static const auto field = javaClassStatic()->getField<margelo::nitro::test::external::JHybridSomeExternalObjectSpec::JavaPart>("value");
+      [[nodiscard]] jni::local_ref<JHybridSomeExternalObjectSpec::JavaPart> getValue() const {
+        static const auto field = javaClassStatic()->getField<JHybridSomeExternalObjectSpec::JavaPart>("value");
         return getFieldValue(field);
       }
     };

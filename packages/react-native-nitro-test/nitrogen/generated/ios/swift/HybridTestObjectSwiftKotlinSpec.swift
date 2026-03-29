@@ -6,7 +6,6 @@
 ///
 
 import NitroModules
-import NitroTestExternal
 
 /// See ``HybridTestObjectSwiftKotlinSpec``
 public protocol HybridTestObjectSwiftKotlinSpec_protocol: HybridObject {

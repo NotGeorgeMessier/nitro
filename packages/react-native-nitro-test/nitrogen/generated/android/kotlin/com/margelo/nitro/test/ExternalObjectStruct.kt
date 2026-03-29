@@ -9,7 +9,7 @@ package com.margelo.nitro.test
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import com.margelo.nitro.test.external.HybridSomeExternalObjectSpec
+
 
 /**
  * Represents the JavaScript object/struct "ExternalObjectStruct".
@@ -19,7 +19,7 @@ import com.margelo.nitro.test.external.HybridSomeExternalObjectSpec
 data class ExternalObjectStruct(
   @DoNotStrip
   @Keep
-  val someExternal: com.margelo.nitro.test.external.HybridSomeExternalObjectSpec
+  val someExternal: HybridSomeExternalObjectSpec
 ) {
   /* primary constructor */
 
@@ -31,7 +31,7 @@ data class ExternalObjectStruct(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(someExternal: com.margelo.nitro.test.external.HybridSomeExternalObjectSpec): ExternalObjectStruct {
+    private fun fromCpp(someExternal: HybridSomeExternalObjectSpec): ExternalObjectStruct {
       return ExternalObjectStruct(someExternal)
     }
   }
