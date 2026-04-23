@@ -18,6 +18,8 @@
 #include "JHybridBaseSpec.hpp"
 #include "JHybridChildSpec.hpp"
 #include "JHybridPlatformObjectSpec.hpp"
+#include "JHybridRecognizerSpec.hpp"
+#include "JFunc_void_std__string.hpp"
 #include "JHybridRecyclableTestViewSpec.hpp"
 #include "views/JHybridRecyclableTestViewStateUpdater.hpp"
 #include "JHybridTestObjectSwiftKotlinSpec.hpp"
@@ -29,7 +31,6 @@
 #include "JFunc_std__shared_ptr_Promise_double__.hpp"
 #include "JFunc_std__shared_ptr_Promise_std__shared_ptr_Promise_double____.hpp"
 #include "JFunc_std__shared_ptr_Promise_std__shared_ptr_Promise_std__shared_ptr_ArrayBuffer_____.hpp"
-#include "JFunc_void_std__string.hpp"
 #include "JFunc_void_std__exception_ptr.hpp"
 #include "JFunc_std__shared_ptr_Promise_std__string__.hpp"
 #include "JFunc_double.hpp"
@@ -53,6 +54,14 @@ struct JHybridTestObjectSwiftKotlinSpecImpl: public jni::JavaClass<JHybridTestOb
     static const auto constructorFn = javaClassStatic()->getConstructor<JHybridTestObjectSwiftKotlinSpecImpl::javaobject()>();
     jni::local_ref<JHybridTestObjectSwiftKotlinSpec::JavaPart> javaPart = javaClassStatic()->newObject(constructorFn);
     return javaPart->getJHybridTestObjectSwiftKotlinSpec();
+  }
+};
+struct JHybridRecognizerSpecImpl: public jni::JavaClass<JHybridRecognizerSpecImpl, JHybridRecognizerSpec::JavaPart> {
+  static constexpr auto kJavaDescriptor = "Lcom/margelo/nitro/test/HybridRecognizer;";
+  static std::shared_ptr<JHybridRecognizerSpec> create() {
+    static const auto constructorFn = javaClassStatic()->getConstructor<JHybridRecognizerSpecImpl::javaobject()>();
+    jni::local_ref<JHybridRecognizerSpec::JavaPart> javaPart = javaClassStatic()->newObject(constructorFn);
+    return javaPart->getJHybridRecognizerSpec();
   }
 };
 struct JHybridBaseSpecImpl: public jni::JavaClass<JHybridBaseSpecImpl, JHybridBaseSpec::JavaPart> {
@@ -104,6 +113,8 @@ void registerAllNatives() {
   margelo::nitro::test::JHybridBaseSpec::CxxPart::registerNatives();
   margelo::nitro::test::JHybridChildSpec::CxxPart::registerNatives();
   margelo::nitro::test::JHybridPlatformObjectSpec::CxxPart::registerNatives();
+  margelo::nitro::test::JHybridRecognizerSpec::CxxPart::registerNatives();
+  margelo::nitro::test::JFunc_void_std__string_cxx::registerNatives();
   margelo::nitro::test::JHybridRecyclableTestViewSpec::CxxPart::registerNatives();
   margelo::nitro::test::views::JHybridRecyclableTestViewStateUpdater::registerNatives();
   margelo::nitro::test::JHybridTestObjectSwiftKotlinSpec::CxxPart::registerNatives();
@@ -115,7 +126,6 @@ void registerAllNatives() {
   margelo::nitro::test::JFunc_std__shared_ptr_Promise_double___cxx::registerNatives();
   margelo::nitro::test::JFunc_std__shared_ptr_Promise_std__shared_ptr_Promise_double_____cxx::registerNatives();
   margelo::nitro::test::JFunc_std__shared_ptr_Promise_std__shared_ptr_Promise_std__shared_ptr_ArrayBuffer______cxx::registerNatives();
-  margelo::nitro::test::JFunc_void_std__string_cxx::registerNatives();
   margelo::nitro::test::JFunc_void_std__exception_ptr_cxx::registerNatives();
   margelo::nitro::test::JFunc_std__shared_ptr_Promise_std__string___cxx::registerNatives();
   margelo::nitro::test::JFunc_double_cxx::registerNatives();
@@ -137,6 +147,12 @@ void registerAllNatives() {
     "TestObjectSwiftKotlin",
     []() -> std::shared_ptr<HybridObject> {
       return JHybridTestObjectSwiftKotlinSpecImpl::create();
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "Recognizer",
+    []() -> std::shared_ptr<HybridObject> {
+      return JHybridRecognizerSpecImpl::create();
     }
   );
   HybridObjectRegistry::registerHybridObjectConstructor(

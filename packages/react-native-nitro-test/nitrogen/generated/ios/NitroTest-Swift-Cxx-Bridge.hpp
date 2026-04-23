@@ -20,6 +20,8 @@ namespace margelo::nitro::test { class HybridBaseSpec; }
 namespace margelo::nitro::test { class HybridChildSpec; }
 // Forward declaration of `HybridPlatformObjectSpec` to properly resolve imports.
 namespace margelo::nitro::test { class HybridPlatformObjectSpec; }
+// Forward declaration of `HybridRecognizerSpec` to properly resolve imports.
+namespace margelo::nitro::test { class HybridRecognizerSpec; }
 // Forward declaration of `HybridRecyclableTestViewSpec` to properly resolve imports.
 namespace margelo::nitro::test { class HybridRecyclableTestViewSpec; }
 // Forward declaration of `HybridSomeExternalObjectSpec` to properly resolve imports.
@@ -54,6 +56,8 @@ namespace NitroTest { class HybridBaseSpec_cxx; }
 namespace NitroTest { class HybridChildSpec_cxx; }
 // Forward declaration of `HybridPlatformObjectSpec_cxx` to properly resolve imports.
 namespace NitroTest { class HybridPlatformObjectSpec_cxx; }
+// Forward declaration of `HybridRecognizerSpec_cxx` to properly resolve imports.
+namespace NitroTest { class HybridRecognizerSpec_cxx; }
 // Forward declaration of `HybridRecyclableTestViewSpec_cxx` to properly resolve imports.
 namespace NitroTest { class HybridRecyclableTestViewSpec_cxx; }
 // Forward declaration of `HybridSomeExternalObjectSpec_cxx` to properly resolve imports.
@@ -69,6 +73,7 @@ namespace NitroTest { class HybridTestViewSpec_cxx; }
 #include "HybridBaseSpec.hpp"
 #include "HybridChildSpec.hpp"
 #include "HybridPlatformObjectSpec.hpp"
+#include "HybridRecognizerSpec.hpp"
 #include "HybridRecyclableTestViewSpec.hpp"
 #include "HybridTestObjectSwiftKotlinSpec.hpp"
 #include "HybridTestViewSpec.hpp"
@@ -300,6 +305,64 @@ namespace margelo::nitro::test::bridge::swift {
   }
   inline Result_std__string_ create_Result_std__string_(const std::exception_ptr& error) noexcept {
     return Result<std::string>::withError(error);
+  }
+  
+  // pragma MARK: std::function<void(const std::string& /* data */)>
+  /**
+   * Specialized version of `std::function<void(const std::string&)>`.
+   */
+  using Func_void_std__string = std::function<void(const std::string& /* data */)>;
+  /**
+   * Wrapper class for a `std::function<void(const std::string& / * data * /)>`, this can be used from Swift.
+   */
+  class Func_void_std__string_Wrapper final {
+  public:
+    explicit Func_void_std__string_Wrapper(std::function<void(const std::string& /* data */)>&& func): _function(std::make_unique<std::function<void(const std::string& /* data */)>>(std::move(func))) {}
+    inline void call(std::string data) const noexcept {
+      _function->operator()(data);
+    }
+  private:
+    std::unique_ptr<std::function<void(const std::string& /* data */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_std__string create_Func_void_std__string(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_std__string_Wrapper wrap_Func_void_std__string(Func_void_std__string value) noexcept {
+    return Func_void_std__string_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::optional<std::function<void(const std::string& /* data */)>>
+  /**
+   * Specialized version of `std::optional<std::function<void(const std::string& / * data * /)>>`.
+   */
+  using std__optional_std__function_void_const_std__string_____data______ = std::optional<std::function<void(const std::string& /* data */)>>;
+  inline std::optional<std::function<void(const std::string& /* data */)>> create_std__optional_std__function_void_const_std__string_____data______(const std::function<void(const std::string& /* data */)>& value) noexcept {
+    return std::optional<std::function<void(const std::string& /* data */)>>(value);
+  }
+  inline bool has_value_std__optional_std__function_void_const_std__string_____data______(const std::optional<std::function<void(const std::string& /* data */)>>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline std::function<void(const std::string& /* data */)> get_std__optional_std__function_void_const_std__string_____data______(const std::optional<std::function<void(const std::string& /* data */)>>& optional) noexcept {
+    return optional.value();
+  }
+  
+  // pragma MARK: std::shared_ptr<HybridRecognizerSpec>
+  /**
+   * Specialized version of `std::shared_ptr<HybridRecognizerSpec>`.
+   */
+  using std__shared_ptr_HybridRecognizerSpec_ = std::shared_ptr<HybridRecognizerSpec>;
+  std::shared_ptr<HybridRecognizerSpec> create_std__shared_ptr_HybridRecognizerSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
+  void* NON_NULL get_std__shared_ptr_HybridRecognizerSpec_(std__shared_ptr_HybridRecognizerSpec_ cppType);
+  
+  // pragma MARK: std::weak_ptr<HybridRecognizerSpec>
+  using std__weak_ptr_HybridRecognizerSpec_ = std::weak_ptr<HybridRecognizerSpec>;
+  inline std__weak_ptr_HybridRecognizerSpec_ weakify_std__shared_ptr_HybridRecognizerSpec_(const std::shared_ptr<HybridRecognizerSpec>& strong) noexcept { return strong; }
+  
+  // pragma MARK: Result<void>
+  using Result_void_ = Result<void>;
+  inline Result_void_ create_Result_void_() noexcept {
+    return Result<void>::withValue();
+  }
+  inline Result_void_ create_Result_void_(const std::exception_ptr& error) noexcept {
+    return Result<void>::withError(error);
   }
   
   // pragma MARK: std::shared_ptr<HybridRecyclableTestViewSpec>
@@ -1108,28 +1171,6 @@ namespace margelo::nitro::test::bridge::swift {
     return Func_void_std__shared_ptr_Promise_std__shared_ptr_ArrayBuffer____Wrapper(std::move(value));
   }
   
-  // pragma MARK: std::function<void(const std::string& /* value */)>
-  /**
-   * Specialized version of `std::function<void(const std::string&)>`.
-   */
-  using Func_void_std__string = std::function<void(const std::string& /* value */)>;
-  /**
-   * Wrapper class for a `std::function<void(const std::string& / * value * /)>`, this can be used from Swift.
-   */
-  class Func_void_std__string_Wrapper final {
-  public:
-    explicit Func_void_std__string_Wrapper(std::function<void(const std::string& /* value */)>&& func): _function(std::make_unique<std::function<void(const std::string& /* value */)>>(std::move(func))) {}
-    inline void call(std::string value) const noexcept {
-      _function->operator()(value);
-    }
-  private:
-    std::unique_ptr<std::function<void(const std::string& /* value */)>> _function;
-  } SWIFT_NONCOPYABLE;
-  Func_void_std__string create_Func_void_std__string(void* NON_NULL swiftClosureWrapper) noexcept;
-  inline Func_void_std__string_Wrapper wrap_Func_void_std__string(Func_void_std__string value) noexcept {
-    return Func_void_std__string_Wrapper(std::move(value));
-  }
-  
   // pragma MARK: std::optional<std::function<void(const std::string& /* value */)>>
   /**
    * Specialized version of `std::optional<std::function<void(const std::string& / * value * /)>>`.
@@ -1581,15 +1622,6 @@ namespace margelo::nitro::test::bridge::swift {
   }
   inline Result_std__variant_std__shared_ptr_HybridTestObjectSwiftKotlinSpec___Person__ create_Result_std__variant_std__shared_ptr_HybridTestObjectSwiftKotlinSpec___Person__(const std::exception_ptr& error) noexcept {
     return Result<std::variant<std::shared_ptr<HybridTestObjectSwiftKotlinSpec>, Person>>::withError(error);
-  }
-  
-  // pragma MARK: Result<void>
-  using Result_void_ = Result<void>;
-  inline Result_void_ create_Result_void_() noexcept {
-    return Result<void>::withValue();
-  }
-  inline Result_void_ create_Result_void_(const std::exception_ptr& error) noexcept {
-    return Result<void>::withError(error);
   }
   
   // pragma MARK: Result<double>

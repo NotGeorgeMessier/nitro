@@ -11,6 +11,7 @@
 #include "HybridBaseSpecSwift.hpp"
 #include "HybridChildSpecSwift.hpp"
 #include "HybridPlatformObjectSpecSwift.hpp"
+#include "HybridRecognizerSpecSwift.hpp"
 #include "HybridRecyclableTestViewSpecSwift.hpp"
 #include "HybridTestObjectSwiftKotlinSpecSwift.hpp"
 #include "HybridTestViewSpecSwift.hpp"
@@ -65,6 +66,30 @@ namespace margelo::nitro::test::bridge::swift {
     }
     #endif
     NitroTest::HybridPlatformObjectSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
+    return swiftPart.toUnsafe();
+  }
+  
+  // pragma MARK: std::function<void(const std::string& /* data */)>
+  Func_void_std__string create_Func_void_std__string(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = NitroTest::Func_void_std__string::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::string& data) mutable -> void {
+      swiftClosure.call(data);
+    };
+  }
+  
+  // pragma MARK: std::shared_ptr<HybridRecognizerSpec>
+  std::shared_ptr<HybridRecognizerSpec> create_std__shared_ptr_HybridRecognizerSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
+    NitroTest::HybridRecognizerSpec_cxx swiftPart = NitroTest::HybridRecognizerSpec_cxx::fromUnsafe(swiftUnsafePointer);
+    return std::make_shared<margelo::nitro::test::HybridRecognizerSpecSwift>(swiftPart);
+  }
+  void* NON_NULL get_std__shared_ptr_HybridRecognizerSpec_(std__shared_ptr_HybridRecognizerSpec_ cppType) {
+    std::shared_ptr<margelo::nitro::test::HybridRecognizerSpecSwift> swiftWrapper = std::dynamic_pointer_cast<margelo::nitro::test::HybridRecognizerSpecSwift>(cppType);
+    #ifdef NITRO_DEBUG
+    if (swiftWrapper == nullptr) [[unlikely]] {
+      throw std::runtime_error("Class \"HybridRecognizerSpec\" is not implemented in Swift!");
+    }
+    #endif
+    NitroTest::HybridRecognizerSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
   
@@ -221,14 +246,6 @@ namespace margelo::nitro::test::bridge::swift {
     auto swiftClosure = NitroTest::Func_void_std__shared_ptr_Promise_std__shared_ptr_ArrayBuffer___::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const std::shared_ptr<Promise<std::shared_ptr<ArrayBuffer>>>& result) mutable -> void {
       swiftClosure.call(result);
-    };
-  }
-  
-  // pragma MARK: std::function<void(const std::string& /* value */)>
-  Func_void_std__string create_Func_void_std__string(void* NON_NULL swiftClosureWrapper) noexcept {
-    auto swiftClosure = NitroTest::Func_void_std__string::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::string& value) mutable -> void {
-      swiftClosure.call(value);
     };
   }
   

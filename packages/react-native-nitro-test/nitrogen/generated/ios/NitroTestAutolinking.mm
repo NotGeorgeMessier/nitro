@@ -12,6 +12,7 @@
 
 #include "HybridTestObjectCpp.hpp"
 #include "HybridTestObjectSwiftKotlinSpecSwift.hpp"
+#include "HybridRecognizerSpecSwift.hpp"
 #include "HybridBaseSpecSwift.hpp"
 #include "HybridChildSpecSwift.hpp"
 #include "HybridPlatformObjectSpecSwift.hpp"
@@ -40,6 +41,13 @@
     "TestObjectSwiftKotlin",
     []() -> std::shared_ptr<HybridObject> {
       std::shared_ptr<HybridTestObjectSwiftKotlinSpec> hybridObject = NitroTest::NitroTestAutolinking::createTestObjectSwiftKotlin();
+      return hybridObject;
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "Recognizer",
+    []() -> std::shared_ptr<HybridObject> {
+      std::shared_ptr<HybridRecognizerSpec> hybridObject = NitroTest::NitroTestAutolinking::createRecognizer();
       return hybridObject;
     }
   );

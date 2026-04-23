@@ -24,6 +24,18 @@ public final class NitroTestAutolinking {
     return HybridTestObjectSwift.self is any RecyclableView.Type
   }
   
+  public static func createRecognizer() -> bridge.std__shared_ptr_HybridRecognizerSpec_ {
+    let hybridObject = HybridRecognizer()
+    return { () -> bridge.std__shared_ptr_HybridRecognizerSpec_ in
+      let __cxxWrapped = hybridObject.getCxxWrapper()
+      return __cxxWrapped.getCxxPart()
+    }()
+  }
+  
+  public static func isRecognizerRecyclable() -> Bool {
+    return HybridRecognizer.self is any RecyclableView.Type
+  }
+  
   public static func createBase() -> bridge.std__shared_ptr_HybridBaseSpec_ {
     let hybridObject = HybridBase()
     return { () -> bridge.std__shared_ptr_HybridBaseSpec_ in

@@ -12,6 +12,7 @@ import {
   Base,
   HybridPlatformObject,
   HybridChild,
+  HybridRecognizer,
 } from 'react-native-nitro-test'
 import {
   type AssertionBackend,
@@ -197,6 +198,19 @@ export function getTests(
 
   return [
     // Basic prototype tests
+    createTest('xxxx', () =>
+      it(() => {
+        console.log(HybridRecognizer.name)
+        HybridRecognizer.onResult = (data: string) =>
+          console.log('JS data ->', data)
+        HybridRecognizer.start()
+      }).didNotThrow()
+    ),
+    createTest('stop', () =>
+      it(() => {
+        HybridRecognizer.stop()
+      }).didNotThrow()
+    ),
     createTest('HybridObject.prototype is valid', () =>
       it(() => Object.getPrototypeOf(testObject))
         .didNotThrow()

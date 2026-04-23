@@ -25,6 +25,16 @@
         "implementationClassName": "HybridTestObjectKotlin"
       }
     },
+    "Recognizer": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridRecognizer"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridRecognizer"
+      }
+    },
     "Base": {
       "ios": {
         "language": "swift",

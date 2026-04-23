@@ -1,5 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
-
 import * as React from 'react'
 
 import {
@@ -14,7 +12,10 @@ import {
 import { NitroModules } from 'react-native-nitro-modules'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useColors } from '../useColors'
-import { HybridTestObjectSwiftKotlin } from 'react-native-nitro-test'
+import {
+  HybridRecognizer,
+  HybridTestObjectSwiftKotlin,
+} from 'react-native-nitro-test'
 import { ExampleTurboModule } from '../turbo-module/ExampleTurboModule'
 
 declare global {
@@ -77,41 +78,9 @@ async function runBenchmarks(): Promise<BenchmarksResult> {
 export function BenchmarksScreen() {
   const safeArea = useSafeAreaInsets()
   const colors = useColors()
-  const dimensions = useWindowDimensions()
-  const [status, setStatus] = React.useState('📱 Idle')
-  const [results, setResults] = React.useState<BenchmarksResult>()
-  const nitroWidth = React.useRef(new Animated.Value(0)).current
-  const turboWidth = React.useRef(new Animated.Value(0)).current
+  const [data, setData] = React.useState('')
 
-  const factor = React.useMemo(() => {
-    if (results == null) return 0
-    const f = results.turboExecutionTimeMs / results.nitroExecutionTimeMs
-    return Math.round(f * 10) / 10
-  }, [results])
-
-  const run = async () => {
-    nitroWidth.setValue(0)
-    turboWidth.setValue(0)
-    setStatus(`⏳ Running Benchmarks`)
-    const r = await runBenchmarks()
-    setResults(r)
-
-    const slowest = Math.max(r.nitroExecutionTimeMs, r.turboExecutionTimeMs)
-    const maxWidth = dimensions.width * 0.65
-    Animated.spring(turboWidth, {
-      toValue: (r.turboExecutionTimeMs / slowest) * maxWidth,
-      friction: 10,
-      tension: 40,
-      useNativeDriver: false,
-    }).start()
-    Animated.spring(nitroWidth, {
-      toValue: (r.nitroExecutionTimeMs / slowest) * maxWidth,
-      friction: 10,
-      tension: 40,
-      useNativeDriver: false,
-    }).start()
-    setStatus(`📱 Idle`)
-  }
+  HybridRecognizer.onResult = (d) => setData(d)
 
   return (
     <View style={[styles.container, { paddingTop: safeArea.top }]}>
@@ -122,75 +91,14 @@ export function BenchmarksScreen() {
       </View>
 
       <View style={styles.resultContainer}>
-        {results != null ? (
-          <View style={styles.chartsContainer}>
-            <Text style={styles.text}>
-              Calling <Text style={styles.bold}>addNumbers(...)</Text>{' '}
-              <Text style={styles.bold}>{ITERATIONS}</Text>x:
-            </Text>
-            <View style={styles.largeVSpacer} />
-
-            <View style={styles.turboResults}>
-              <Text style={styles.title}>Turbo Modules</Text>
-              <View style={styles.smallVSpacer} />
-              <Animated.View
-                style={[
-                  styles.chart,
-                  {
-                    backgroundColor: colors.card,
-                    opacity: 0.4,
-                    width: turboWidth,
-                  },
-                ]}
-              />
-              <View style={styles.smallVSpacer} />
-              <Text style={styles.text}>
-                Time:{' '}
-                <Text style={styles.bold}>
-                  {results.turboExecutionTimeMs.toFixed(2)}ms
-                </Text>
-              </Text>
-            </View>
-
-            <View style={styles.largeVSpacer} />
-
-            <View style={styles.nitroResults}>
-              <Text style={styles.title}>Nitro Modules</Text>
-              <View style={styles.smallVSpacer} />
-              <Animated.View
-                style={[
-                  styles.chart,
-                  {
-                    backgroundColor: colors.card,
-                    width: nitroWidth,
-                  },
-                ]}
-              />
-              <View style={styles.smallVSpacer} />
-              <Text style={styles.text}>
-                Time:{' '}
-                <Text style={styles.bold}>
-                  {results.nitroExecutionTimeMs.toFixed(2)}ms
-                </Text>
-                {'      '}(<Text style={styles.bold}>{factor}x</Text>{' '}
-                {factor > 1 ? 'faster' : 'slower'}!)
-              </Text>
-            </View>
-          </View>
-        ) : (
-          <Text numberOfLines={5} style={styles.text}>
-            Press <Text style={styles.bold}>Run</Text> to call{' '}
-            <Text style={styles.bold}>addNumbers(...)</Text> {ITERATIONS} times.
-          </Text>
-        )}
+        <Text style={styles.text}>data: {data}</Text>
       </View>
 
       <View style={[styles.bottomView, { backgroundColor: colors.background }]}>
-        <Text style={styles.resultText} numberOfLines={2}>
-          {status}
-        </Text>
-        <View style={styles.flex} />
-        <Button title="Run" onPress={run} />
+        <Button title="Start" onPress={() => HybridRecognizer.start()} />
+      </View>
+      <View style={[styles.bottomView, { backgroundColor: colors.background }]}>
+        <Button title="Stop" onPress={() => HybridRecognizer.stop()} />
       </View>
     </View>
   )

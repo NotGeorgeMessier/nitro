@@ -5,6 +5,7 @@ import {
 } from './specs/TestObject.nitro'
 import { type PlatformObject } from './specs/PlatformObject.nitro'
 import type { Base } from './specs/Base.nitro'
+import type { Recognizer } from './specs/Recognizer.nitro'
 import type { Child } from './specs/Child.nitro'
 
 // Export all Hybrid Object types
@@ -22,6 +23,7 @@ export const HybridTestObjectSwiftKotlin =
     'TestObjectSwiftKotlin'
   )
 export const HybridBase = NitroModules.createHybridObject<Base>('Base')
+export const HybridRecognizer = NitroModules.createHybridObject<Recognizer>('Recognizer')
 export const HybridChild = NitroModules.createHybridObject<Child>('Child')
 export const HybridPlatformObject =
   NitroModules.createHybridObject<PlatformObject>('PlatformObject')
